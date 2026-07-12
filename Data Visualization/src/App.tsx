@@ -3,7 +3,6 @@ import { orderedData } from "./orderedData";
 import { Scatterplot } from "./scatterplot/Scatterplot";
 import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
-import './App.css'
 
 function App() {
   const [active, setActive] = useState('scatterplot')
