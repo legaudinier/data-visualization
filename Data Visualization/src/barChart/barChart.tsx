@@ -7,7 +7,7 @@ const BAR_PADDING = 0.3;
 type BarplotProps = {
     width: number;
     height: number;
-    data: OrderedDataType
+    data: OrderedDataType[]
 };
 
 export const BarChart = ({ width, height, data }: BarplotProps) => {
@@ -16,7 +16,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const bDataOnly: any = data.filter(x => x?.event === 'B');
-    const dataSummed = bDataOnly.reduce((acc, curr) => {
+    const dataSummed = bDataOnly.reduce((acc: any, curr: any) => {
         const existing = acc.find(item => item.date === curr.date);
 
         if (existing) {
@@ -29,7 +29,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     }, []);
 
     // X axis is for groups since the barplot is vertical
-    const groups = dataSummed.sort((a, b) => b.date - a.date).map((d) => d.totals);
+    const groups = dataSummed.sort((a: any, b: any) => b.date - a.date).map((d: OrderedDataType) => d.totals);
     //
     const xScale = d3
         .scaleBand()
@@ -38,15 +38,15 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         .padding(BAR_PADDING);
 
     // Y axis
-    const max = d3.max(dataSummed.map((d) => d.date)) ?? 10;
-    const yScale = d3
+    const max = d3.max(dataSummed.map((d: any) => d.date)) ?? 10;
+    const yScale: any = d3
         .scaleLinear()
         .domain([max * 1.2, 0])
         .range([0, boundsHeight]);
 
     // Build the shapes
     const allShapes = dataSummed.map((d: OrderedDataType, i: number ) => {
-        const x = xScale(d?.totals);
+        const x = xScale(d.totals);
         if (x === undefined) {
             return null;
         }
@@ -87,7 +87,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         );
     });
 
-    const grid = yScale.ticks(5).map((value, i) => (
+    const grid = yScale.ticks(5).map((value: any, i: number) => (
         <g key={i}>
             <line
                 x1={0}

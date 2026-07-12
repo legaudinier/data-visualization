@@ -2,19 +2,14 @@ import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/Tooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
+import { type OrderedDataType } from '../orderedData';
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
-type DataPoint = {
-    date: any;
-    time: any;
-    totals: number;
-    event: string;
-};
 type LineChart = {
     width: number;
     height: number;
-    data: DataPoint[];
+    data: OrderedDataType[];
 };
 
 export const LineChart = ({
@@ -34,8 +29,8 @@ export const LineChart = ({
     }
 
     const bDataOnly = data.filter(x => x.event === 'B');
-    const dataSummed: any = bDataOnly.reduce((acc, curr) => {
-        const existing: any = acc.find(item => item.date === curr.date);
+    const dataSummed = bDataOnly.reduce((acc, curr) => {
+        const existing = acc.find(item => item.date === curr.date);
 
         if (existing) {
             existing.totals += curr.totals;
@@ -47,14 +42,16 @@ export const LineChart = ({
     }, []);
 
     // Y axis
-    const [min, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
+    // const [min, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
+    const [, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
     const yScale = d3
         .scaleLinear()
         .domain([0, max || 0])
         .range([boundsHeight, 0]);
 
     // X axis
-    const [xMin, xMax] = d3.extent(dataSummed, (d: any) => d.date);
+    // const [xMin, xMax] = d3.extent(dataSummed, (d: any) => d.date);
+    const [, xMax] = d3.extent(dataSummed, (d: any) => d.date);
     const xScale = d3
         .scaleLinear()
         .domain([0, xMax || 0])
@@ -76,7 +73,7 @@ export const LineChart = ({
 
     // Build the line
     const lineBuilder = d3
-        .line<DataPoint>()
+        .line<OrderedDataType>()
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.totals / 60));
     const linePath = lineBuilder(dataSummed);
@@ -85,7 +82,7 @@ export const LineChart = ({
     }
 
     // Build the circles
-    const allCircles = dataSummed.map((item: DataPoint, i: number) => {
+    const allCircles = dataSummed.map((item: OrderedDataType, i: number) => {
         return (
             <circle
                 key={i}
