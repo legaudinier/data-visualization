@@ -17,7 +17,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
 
     const bDataOnly: any = data.filter(x => x?.event === 'B');
     const dataSummed = bDataOnly.reduce((acc: any, curr: any) => {
-        const existing = acc.find(item => item.date === curr.date);
+        const existing = acc.find((item: any) => item.date === curr.date);
 
         if (existing) {
             existing.totals += curr.totals;

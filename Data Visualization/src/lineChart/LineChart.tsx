@@ -30,7 +30,7 @@ export const LineChart = ({
 
     const bDataOnly = data.filter(x => x.event === 'B');
     const dataSummed = bDataOnly.reduce((acc, curr) => {
-        const existing = acc.find(item => item.date === curr.date);
+        const existing: any = acc.find((item: any) => item.date === curr.date);
 
         if (existing) {
             existing.totals += curr.totals;
