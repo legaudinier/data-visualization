@@ -11,7 +11,6 @@ type DataPoint = {
     time: any;
     totals: number;
     event: string;
-    subGroup: string;
 };
 
 type ScatterplotProps = {
@@ -21,7 +20,7 @@ type ScatterplotProps = {
 };
 
 export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
-    const boundsWidth = width - MARGIN.right - MARGIN.left;
+    const boundsWidth: any = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const [hovered, setHovered] = useState<InteractionData | null>(null);
@@ -31,7 +30,7 @@ export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
 
     // Scales
     const yScale = d3.scaleLinear().domain([0, 24]).range([boundsHeight, 0]);
-    const xScale = d3
+    const xScale: any = d3
         .scaleLinear<Date>()
         .domain([minDate, maxDate])
         .range([0, boundsWidth]);

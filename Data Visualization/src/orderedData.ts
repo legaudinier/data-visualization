@@ -1,4 +1,11 @@
-export const orderedData = [
+export type OrderedDataType = {
+    date: number;
+    time: any;
+    event: string;
+    totals: number;
+};
+
+export const orderedData: OrderedDataType[] = [
     {
         "date": 25,
         "time": "23:34:00",
@@ -195,7 +202,7 @@ export const orderedData = [
         "date": 27,
         "time": "3:47:18",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 27,
@@ -16365,7 +16372,7 @@ export const orderedData = [
         "date": 219,
         "time": "15:04:11",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 219,
@@ -16617,7 +16624,7 @@ export const orderedData = [
         "date": 222,
         "time": "15:08:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 222,
@@ -17559,7 +17566,7 @@ export const orderedData = [
         "date": 234,
         "time": "10:22:46",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 234,
@@ -18489,7 +18496,7 @@ export const orderedData = [
         "date": 247,
         "time": "11:30:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 247,
@@ -18567,7 +18574,7 @@ export const orderedData = [
         "date": 248,
         "time": "11:08:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 248,
@@ -18729,7 +18736,7 @@ export const orderedData = [
         "date": 251,
         "time": "18:38:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 251,
@@ -19089,7 +19096,7 @@ export const orderedData = [
         "date": 256,
         "time": "10:52:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 256,
@@ -19485,7 +19492,7 @@ export const orderedData = [
         "date": 262,
         "time": "15:14:17",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 262,
@@ -20133,7 +20140,7 @@ export const orderedData = [
         "date": 272,
         "time": "13:20:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 272,
@@ -20517,7 +20524,7 @@ export const orderedData = [
         "date": 278,
         "time": "17:10:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 278,
@@ -20577,7 +20584,7 @@ export const orderedData = [
         "date": 279,
         "time": "18:45:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 279,
@@ -20949,7 +20956,7 @@ export const orderedData = [
         "date": 284,
         "time": "11:18:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 284,
@@ -21069,7 +21076,7 @@ export const orderedData = [
         "date": 286,
         "time": "11:50:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 286,
@@ -21195,7 +21202,7 @@ export const orderedData = [
         "date": 288,
         "time": "11:54:00",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 288,
@@ -24459,7 +24466,7 @@ export const orderedData = [
         "date": 347,
         "time": "18:38:12",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 347,
@@ -24597,7 +24604,7 @@ export const orderedData = [
         "date": 350,
         "time": "15:48:08",
         "event": "BF",
-        "totals": ""
+        "totals": 0
     },
     {
         "date": 350,

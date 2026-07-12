@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import {type OrderedDataType} from '../orderedData';
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 const BAR_PADDING = 0.3;
@@ -6,7 +7,7 @@ const BAR_PADDING = 0.3;
 type BarplotProps = {
     width: number;
     height: number;
-    data: { name: string; value: number }[];
+    data: OrderedDataType
 };
 
 export const BarChart = ({ width, height, data }: BarplotProps) => {
@@ -14,7 +15,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    const bDataOnly = data.filter(x => x?.event === 'B');
+    const bDataOnly: any = data.filter(x => x?.event === 'B');
     const dataSummed = bDataOnly.reduce((acc, curr) => {
         const existing = acc.find(item => item.date === curr.date);
 
@@ -44,8 +45,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         .range([0, boundsHeight]);
 
     // Build the shapes
-    const allShapes = dataSummed.map((d, i) => {
-       const x = xScale(d.totals);
+    const allShapes = dataSummed.map((d: OrderedDataType, i: number ) => {
+        const x = xScale(d?.totals);
         if (x === undefined) {
             return null;
         }

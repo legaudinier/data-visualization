@@ -15,7 +15,7 @@ export const AxisBottom = ({
     pixelsPerTick,
     height,
 }: AxisBottomProps) => {
-    const range = xScale.range();
+    const range: any = xScale.range(); // fix this any
 
     const ticks = useMemo(() => {
         const width = range[1] - range[0];

@@ -32,10 +32,10 @@ export const LineChart = ({
     for (let i = 0; i <= 700; i += 10) {
         dateTicks.push(i);
     }
-    
+
     const bDataOnly = data.filter(x => x.event === 'B');
-    const dataSummed = bDataOnly.reduce((acc, curr) => {
-        const existing = acc.find(item => item.date === curr.date);
+    const dataSummed: any = bDataOnly.reduce((acc, curr) => {
+        const existing: any = acc.find(item => item.date === curr.date);
 
         if (existing) {
             existing.totals += curr.totals;
@@ -47,14 +47,14 @@ export const LineChart = ({
     }, []);
 
     // Y axis
-    const [min, max] = d3.extent(dataSummed, (d) => (d.totals / 60));
+    const [min, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
     const yScale = d3
         .scaleLinear()
         .domain([0, max || 0])
         .range([boundsHeight, 0]);
 
     // X axis
-    const [xMin, xMax] = d3.extent(dataSummed, (d) => d.date);
+    const [xMin, xMax] = d3.extent(dataSummed, (d: any) => d.date);
     const xScale = d3
         .scaleLinear()
         .domain([0, xMax || 0])
@@ -85,7 +85,7 @@ export const LineChart = ({
     }
 
     // Build the circles
-    const allCircles = dataSummed.map((item, i) => {
+    const allCircles = dataSummed.map((item: DataPoint, i: number) => {
         return (
             <circle
                 key={i}
