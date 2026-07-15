@@ -45,7 +45,7 @@ export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
         return (
             <circle
                 key={i}
-                r={8}
+                r={10}
                 cx={xScale(d.date)}
                 cy={yScale(Number(d.time.split(':')[0]) + Number(d.time.split(':')[1] / 60))}
                 stroke={colorScale(d.event)}

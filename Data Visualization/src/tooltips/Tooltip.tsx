@@ -15,6 +15,15 @@ type TooltipProps = {
 };
 
 export const Tooltip = ({ interactionData }: TooltipProps) => {
+
+
+    const convertTime = (time: any) => {
+        let [hours, minutes] = time.split(':').map(Number);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // Converts 0 to 12, and 13-23 to 1-11
+        return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    };
+
     if (!interactionData) {
         return null;
     }
@@ -27,11 +36,11 @@ export const Tooltip = ({ interactionData }: TooltipProps) => {
             }}
         >
             <div>
-                {interactionData?.name}
+                Event: {interactionData?.name}
                 <br />
-                {interactionData.time < 12 ? (`${interactionData.time} PM`) : (`${interactionData.time} AM`)}
+                Time: {convertTime(interactionData.time)}
                 <br />
-                {`${Math.round(interactionData?.totals / 60)} minutes`}
+                Duration: {`${Math.round(interactionData?.totals / 60)} minutes`}
             </div>
         </div>
     );

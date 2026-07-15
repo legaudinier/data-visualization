@@ -15,7 +15,7 @@ function App() {
           width: '95%',
           height: '1075px',
           overflowY: 'scroll',
-          paddingTop: '1opx'
+          paddingTop: '20px'
         }}>
         <div style={{marginLeft: '30px'}}>
           <button
@@ -34,7 +34,7 @@ function App() {
             Month Totals Breakdown
           </button>
         </div>
-        {active === 'scatterplot' && <Scatterplot data={orderedData} width={8000} height={1000} />}
+        {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} />}
         {active === 'p' && <LineChart data={orderedData} width={8000} height={1000} />}
         {active === 'totals' && <BarChart data={orderedData} width={20000} height={1000} />}
 

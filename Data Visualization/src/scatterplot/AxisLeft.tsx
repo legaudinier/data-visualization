@@ -22,6 +22,13 @@ export const AxisLeft = ({ yScale, pixelsPerTick, width }: AxisLeftProps) => {
     }));
   }, [yScale]);
 
+  const convertTime = (time: number) => {
+    const ampm = time >= 12 ? 'PM' : 'AM';
+
+    let hours = time % 12 || 12; // Converts 0 to 12, and 13-23 to 1-11
+    return `${hours} ${ampm}`;
+  };
+
   return (
     <>
       {/* Ticks and labels */}
@@ -34,8 +41,9 @@ export const AxisLeft = ({ yScale, pixelsPerTick, width }: AxisLeftProps) => {
             strokeWidth={0.5}
             shapeRendering={"crispEdges"}
           />
+          {/* modify this show it works */}
           <text
-            key={value}
+            key={convertTime(value)}
             style={{
               fontSize: "10px",
               textAnchor: "middle",
@@ -43,7 +51,7 @@ export const AxisLeft = ({ yScale, pixelsPerTick, width }: AxisLeftProps) => {
               fill: "#353936",
             }}
           >
-            {value}
+            {convertTime(value)}
           </text>
         </g>
       ))}
