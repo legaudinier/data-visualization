@@ -3,22 +3,42 @@ import { orderedData } from "./orderedData";
 import { Scatterplot } from "./scatterplot/Scatterplot";
 import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
+import './App.css'
 
 function App() {
   const [active, setActive] = useState('scatterplot')
 
   return (
     <>
-     <div>
-      <button onClick={() => setActive('scatterplot')}>Time/Day Scatterplot</button>
-      <button onClick={() => setActive('p')}>Amount Breakdown</button>
-      <button onClick={() => setActive('totals')}>Month Totals Breakdown</button>
+      <div
+        style={{
+          width: '95%',
+          height: '1075px',
+          overflowY: 'scroll',
+          paddingTop: '1opx'
+        }}>
+        <div style={{marginLeft: '30px'}}>
+          <button
+            onClick={() => setActive('scatterplot')}
+            className={`${active === 'scatterplot' ? 'activeButton' : 'button'}`}>
+            Time/Day Scatterplot
+          </button>
+          <button
+            onClick={() => setActive('p')}
+            className={`${active === 'p' ? 'activeButton' : 'button'}`}>
+            Amount Breakdown
+          </button>
+          <button
+            onClick={() => setActive('totals')}
+            className={`${active === 'totals' ? 'activeButton' : 'button'}`}>
+            Month Totals Breakdown
+          </button>
+        </div>
+        {active === 'scatterplot' && <Scatterplot data={orderedData} width={8000} height={1000} />}
+        {active === 'p' && <LineChart data={orderedData} width={8000} height={1000} />}
+        {active === 'totals' && <BarChart data={orderedData} width={20000} height={1000} />}
 
-      {active === 'scatterplot' && <Scatterplot data={orderedData} width={8000} height={500} />}
-      {active === 'p' && <LineChart data={orderedData} width={8000} height={400} />}
-      {active === 'totals' && <BarChart data={orderedData} width={20000} height={400} />}
-
-    </div>
+      </div>
     </>
   )
 }
