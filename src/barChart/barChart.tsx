@@ -41,12 +41,12 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const max = d3.max(dataSummed.map((d: any) => d.date)) ?? 10;
     const yScale: any = d3
         .scaleLinear()
-        .domain([max * 1.2, 0])
+        .domain([Number(max) * 1.2, 0])
         .range([0, boundsHeight]);
 
     // Build the shapes
     const allShapes = dataSummed.map((d: OrderedDataType, i: number ) => {
-        const x = xScale(d.totals);
+        const x = xScale(d.totals.toString()); // this is broken
         if (x === undefined) {
             return null;
         }
