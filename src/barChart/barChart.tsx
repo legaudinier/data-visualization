@@ -50,7 +50,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const max = d3.max(result.map((d: any) => d.totals)) ?? 10;
     const yScale: any = d3
         .scaleLinear()
-        .domain([Number(max) * 1.2, 0])
+        .domain([Number(max) * .75, 0])
         .range([0, boundsHeight]);
 
     // Build the shapes
@@ -66,7 +66,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     x={x}
                     y={yScale(d.totals)}
                     width={xScale.bandwidth()}
-                    height={boundsHeight - yScale(d.totals)}
+                    height={boundsHeight - yScale(d.totals) }
                     opacity={0.9}
                     stroke="#3b0fbf"
                     fill="#455ad1"

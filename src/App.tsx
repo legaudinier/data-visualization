@@ -36,7 +36,7 @@ function App() {
         </div>
         {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} />}
         {active === 'p' && <LineChart data={orderedData} width={8000} height={800} />}
-        {active === 'totals' && <BarChart data={orderedData} width={20000} height={400} />}
+        {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} />}
 
       </div>
     </>
