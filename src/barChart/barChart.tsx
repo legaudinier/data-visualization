@@ -47,10 +47,10 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         .padding(BAR_PADDING);
 
     // Y axis is the vertical access so this has to be the totals
-    const max = d3.max(result.map((d: any) => d.totals)) ?? 10;
+    const max = d3.max(result.map((d: any) => (d.totals / 60))) ?? 10;
     const yScale: any = d3
         .scaleLinear()
-        .domain([Number(max) * .75, 0])
+        .domain([Number(max) * 1.05, 0])
         .range([0, boundsHeight]);
 
     // Build the shapes
@@ -64,9 +64,9 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             <g key={i}>
                 <rect
                     x={x}
-                    y={yScale(d.totals)}
+                    y={yScale(d.totals / 60)}
                     width={xScale.bandwidth()}
-                    height={boundsHeight - yScale(d.totals) }
+                    height={boundsHeight - yScale(d.totals / 60) }
                     opacity={0.9}
                     stroke="#3b0fbf"
                     fill="#455ad1"
@@ -76,12 +76,12 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                 />
                 <text
                     x={x + xScale.bandwidth() / 2}
-                    y={yScale(d.date) - 10}
+                    y={yScale(d.totals / 60) - 10}
                     textAnchor="middle"
                     alignmentBaseline="mathematical"
                     fontSize={12}
                 >
-                    {d.totals}
+                    {(d.totals / 60).toFixed(2)}
                 </text>
                 <text
                     x={x + xScale.bandwidth() / 2}
