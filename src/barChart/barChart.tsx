@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
-import {type OrderedDataType} from '../orderedData';
+import { type OrderedDataType } from '../orderedData';
 
-const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
+const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
 const BAR_PADDING = 0.3;
 
 type BarplotProps = {
@@ -15,38 +15,59 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    const bDataOnly: any = data.filter(x => x?.event === 'B');
-    const dataSummed = bDataOnly.reduce((acc: any, curr: any) => {
-        const existing = acc.find((item: any) => item.date === curr.date);
+    // B data by day in a barchart
 
-        if (existing) {
-            existing.totals += curr.totals;
-        } else {
-            acc.push({ ...curr });
+    // filter to only show the b events
+    const bDataOnly: any = data.filter(x => x?.event === 'B');
+
+    const groups = bDataOnly.sort((a: any, b: any) => b.date + a.date).map((d: any) => d.totals);
+
+    // Combine similar items and sum their values
+    const combinedMap = bDataOnly.reduce((accumulator, currentItem) => {
+        const key = currentItem.date;
+
+        // If the category does not exist in our accumulator, initialize it
+        if (!accumulator[key]) {
+            accumulator[key] = { date: key, totals: 0, event: currentItem.event };
         }
 
-        return acc;
-    }, []);
+        // Sum the amount into the existing category group
+        accumulator[key].totals += currentItem.totals;
 
-    // X axis is for groups since the barplot is vertical
-    const groups = dataSummed.sort((a: any, b: any) => b.date - a.date).map((d: OrderedDataType) => d.totals);
-    //
+        return accumulator;
+    }, {});
+
+    // Convert the grouped object values back into an array of objects
+    const result = Object.values(combinedMap);
+    const dateGroups = result.map((d: any) => d.date);
+    const totalsGroups = result.map((d: any) => d.totals);
+
+    console.log('combinedMap', combinedMap)
+
+
+    console.log('resultGroups', dateGroups);
+    console.log('totalsGroups', totalsGroups)
+
+    console.log('result', result)
+
+
+    // X scale is the horizontal axis so this has to be the date groups
     const xScale = d3
         .scaleBand()
-        .domain(groups)
+        .domain(dateGroups)
         .range([0, boundsWidth])
         .padding(BAR_PADDING);
 
-    // Y axis
-    const max = d3.max(dataSummed.map((d: any) => d.date)) ?? 10;
+    // Y axis is the vertical access so this has to be the totals
+    const max = d3.max(result.map((d: any) => d.totals)) ?? 10;
     const yScale: any = d3
         .scaleLinear()
         .domain([Number(max) * 1.2, 0])
         .range([0, boundsHeight]);
 
     // Build the shapes
-    const allShapes = dataSummed.map((d: OrderedDataType, i: number ) => {
-        const x = xScale(d.totals.toString()); // this is broken
+    const allShapes = result.map((d: OrderedDataType, i: number) => {
+        const x = xScale(d.date); // this is broken
         if (x === undefined) {
             return null;
         }
@@ -55,12 +76,12 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             <g key={i}>
                 <rect
                     x={x}
-                    y={yScale(d.date)}
+                    y={yScale(d.totals)}
                     width={xScale.bandwidth()}
-                    height={boundsHeight - yScale(d.date)}
+                    height={boundsHeight - yScale(d.totals)}
                     opacity={0.9}
-                    stroke="#6689c6"
-                    fill="#6689c6"
+                    stroke="#0f50bf"
+                    fill="#0544b0"
                     fillOpacity={0.6}
                     strokeWidth={1}
                     rx={1}
@@ -72,8 +93,9 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     alignmentBaseline="central"
                     fontSize={12}
                 >
-                    {d.date}
+                    {d.totals}
                 </text>
+                {/* this is the bottom */}
                 <text
                     x={x + xScale.bandwidth() / 2}
                     y={boundsHeight + 10}
@@ -87,6 +109,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         );
     });
 
+    // THIS IS THE HEIGHT
     const grid = yScale.ticks(5).map((value: any, i: number) => (
         <g key={i}>
             <line
@@ -106,7 +129,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                 stroke="#808080"
                 opacity={0.8}
             >
-                {value}
+                {value} mins
             </text>
         </g>
     ));

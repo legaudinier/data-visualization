@@ -21,17 +21,17 @@ function App() {
           <button
             onClick={() => setActive('scatterplot')}
             className={`${active === 'scatterplot' ? 'activeButton' : 'button'}`}>
-            Time/Day Scatterplot
+            Daily Scatterplot
           </button>
           <button
             onClick={() => setActive('p')}
             className={`${active === 'p' ? 'activeButton' : 'button'}`}>
-            Amount Breakdown
+            Daily Line Chart Breakdown
           </button>
           <button
             onClick={() => setActive('totals')}
             className={`${active === 'totals' ? 'activeButton' : 'button'}`}>
-            Month Totals Breakdown
+            Daily Bar Chart Breakdown
           </button>
         </div>
         {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} />}

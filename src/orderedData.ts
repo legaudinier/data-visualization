@@ -5,6 +5,8 @@ export type OrderedDataType = {
     totals: number;
 };
 
+//totals is mins
+
 export const orderedData: OrderedDataType[] = [
     {
         "date": 25,
