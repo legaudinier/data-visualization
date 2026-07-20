@@ -20,10 +20,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     // filter to only show the b events
     const bDataOnly: any = data.filter(x => x?.event === 'B');
 
-    const groups = bDataOnly.sort((a: any, b: any) => b.date + a.date).map((d: any) => d.totals);
-
     // Combine similar items and sum their values
-    const combinedMap = bDataOnly.reduce((accumulator, currentItem) => {
+    const combinedMap = bDataOnly.reduce((accumulator: any, currentItem: any) => {
         const key = currentItem.date;
 
         // If the category does not exist in our accumulator, initialize it
@@ -40,16 +38,6 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     // Convert the grouped object values back into an array of objects
     const result = Object.values(combinedMap);
     const dateGroups = result.map((d: any) => d.date);
-    const totalsGroups = result.map((d: any) => d.totals);
-
-    console.log('combinedMap', combinedMap)
-
-
-    console.log('resultGroups', dateGroups);
-    console.log('totalsGroups', totalsGroups)
-
-    console.log('result', result)
-
 
     // X scale is the horizontal axis so this has to be the date groups
     const xScale = d3
@@ -66,8 +54,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         .range([0, boundsHeight]);
 
     // Build the shapes
-    const allShapes = result.map((d: OrderedDataType, i: number) => {
-        const x = xScale(d.date); // this is broken
+    const allShapes = result.map((d: any, i: number) => {
+        const x = xScale(d.date); 
         if (x === undefined) {
             return null;
         }
@@ -80,8 +68,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     width={xScale.bandwidth()}
                     height={boundsHeight - yScale(d.totals)}
                     opacity={0.9}
-                    stroke="#0f50bf"
-                    fill="#0544b0"
+                    stroke="#3b0fbf"
+                    fill="#455ad1"
                     fillOpacity={0.6}
                     strokeWidth={1}
                     rx={1}
@@ -90,12 +78,11 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     x={x + xScale.bandwidth() / 2}
                     y={yScale(d.date) - 10}
                     textAnchor="middle"
-                    alignmentBaseline="central"
+                    alignmentBaseline="mathematical"
                     fontSize={12}
                 >
                     {d.totals}
                 </text>
-                {/* this is the bottom */}
                 <text
                     x={x + xScale.bandwidth() / 2}
                     y={boundsHeight + 10}
