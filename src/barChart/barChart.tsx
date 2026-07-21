@@ -15,12 +15,11 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    // B data by day in a barchart
 
-    // filter to only show the b events
+    // Filter to only show the B events
     const bDataOnly: any = data.filter(x => x?.event === 'B');
 
-    // Combine similar items and sum their values
+    // Combine all B events and sum their values
     const combinedMap = bDataOnly.reduce((accumulator: any, currentItem: any) => {
         const key = currentItem.date;
 
@@ -35,10 +34,10 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         return accumulator;
     }, {});
 
-    // do the same thing for the P values
+    // Filter to only show the P events
     const pDataOnly: any = data.filter(x => x?.event === 'P');
 
-    // Combine similar items and sum their values
+    // Combine all P events items and sum their values
     const pCombinedMap = pDataOnly.reduce((accumulator: any, currentItem: any) => {
         const key = currentItem.date;
 
@@ -53,16 +52,16 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         return accumulator;
     }, {});
 
-    // console.log("pCombinedMap", pCombinedMap)
-
-
     // Convert the grouped object values back into an array of objects
-    const result = Object.values(combinedMap);
+    const resultB = Object.values(combinedMap);
     const resultP = Object.values(pCombinedMap)
-    const dateGroups = result.map((d: any) => d.date);
 
+    // Because there are all dates for B events, we can just use this as our grouping
+    const dateGroups = resultB.map((d: any) => d.date);
+
+    // Combine both resultB and resultP based on their similar date values
     const combinedResults = Object.values(
-        [...result as any, ...resultP as any].reduce((acc: any, current: any) => {
+        [...resultB as any, ...resultP as any].reduce((acc: any, current: any) => {
             const key: any = current['date'];
             acc[key] = acc[key] ? { ...acc[key], ...current } : { ...current };
             return acc;
@@ -77,7 +76,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         .padding(BAR_PADDING);
 
     // Y axis is the vertical access so this has to be the totals
-    const max = d3.max(result.map((d: any) => (d.totals / 60))) ?? 10;
+    const max = d3.max(resultB.map((d: any) => (d.totals / 60))) ?? 10;
     const yScale: any = d3
         .scaleLinear()
         .domain([Number(max) * 1.05, 0])
@@ -90,7 +89,6 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             return null;
         }
 
-        // add the P events here
         return (
             <g key={i}>
                 {/* B data */}
@@ -106,6 +104,15 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     strokeWidth={1}
                     rx={1}
                 />
+                <text
+                    x={(x + xScale.bandwidth() / 2) + 5}
+                    y={yScale(d.totals / 60) - 10}
+                    textAnchor="middle"
+                    alignmentBaseline="mathematical"
+                    fontSize={12}
+                >
+                    {(d.totals / 60).toFixed(0)}
+                </text>
                 {/* P data */}
                 <rect
                     x={x + 20}
@@ -119,15 +126,6 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     strokeWidth={1}
                     rx={1}
                 />
-                <text
-                    x={(x + xScale.bandwidth() / 2) + 5}
-                    y={yScale(d.totals / 60) - 10}
-                    textAnchor="middle"
-                    alignmentBaseline="mathematical"
-                    fontSize={12}
-                >
-                    {(d.totals / 60).toFixed(0)}
-                </text>
                 <text
                     x={(x + xScale.bandwidth() / 2) + 16}
                     y={yScale(d.pTotals / 60) - 10}
