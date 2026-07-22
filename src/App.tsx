@@ -8,7 +8,6 @@ import './App.css'
 
 function App() {
   const [active, setActive] = useState('scatterplot')
-  console.log('allBTotals', allTotalsArray)
 
   return (
     <>

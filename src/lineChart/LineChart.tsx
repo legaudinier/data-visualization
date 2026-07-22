@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/Tooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
 import { type OrderedDataType } from '../orderedData';
-import { bColor, combinedResults } from '../dataTools'
+import { bColor, pColor, combinedResults } from '../dataTools'
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
@@ -28,19 +28,6 @@ export const LineChart = ({
     for (let i = 0; i <= 700; i += 10) {
         dateTicks.push(i);
     }
-
-    const bDataOnly = data.filter(x => x.event === 'B');
-    const dataSummed = bDataOnly.reduce((acc: any[], curr: any) => {
-        const existing = acc.find((item) => item.date === curr.date);
-
-        if (existing) {
-            existing.totals += curr.totals;
-        } else {
-            acc.push({ ...curr });
-        }
-
-        return acc;
-    }, []);
 
     // Y axis
     const [, max] = d3.extent(combinedResults, (d: any) => (d.totals / 60));
@@ -70,12 +57,22 @@ export const LineChart = ({
         svgElement.append('g').call(yAxisGenerator);
     }, [xScale, yScale, boundsHeight]);
 
-    // Build the line
+    // Build the bLine
     const lineBuilder = d3
-        .line<OrderedDataType>()
+        .line<any>()
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.totals / 60));
-    const linePath = lineBuilder(dataSummed);
+    const linePath = lineBuilder(combinedResults);
+    if (!linePath) {
+        return null;
+    }
+
+    // Build the pLine
+    const pLineBuilder = d3
+        .line<any>()
+        .x((d) => xScale(d.date))
+        .y((d) => yScale(d.pTotals / 60));
+    const pLinePath = pLineBuilder(combinedResults);
     if (!linePath) {
         return null;
     }
@@ -83,26 +80,46 @@ export const LineChart = ({
     // Build the circles
     const allCircles = combinedResults.map((item: any, i: number) => {
         return (
-            <circle
-                key={i}
-                cx={xScale(item.date)}
-                cy={yScale(item.totals / 60)}
-                r={8}
-                fill={bColor}
-                stroke={bColor}
-                opacity={'0.8'}
-                onMouseEnter={() =>
-                    setHovered({
-                        xPos: xScale(item.date),
-                        yPos: yScale(item.totals / 60),
-                        name: item.event,
-                        totals: (item.totals / 60),
-                        date: item.date,
-                        time: item.time
-                    })
-                }
-                onMouseLeave={() => setHovered(null)}
-            />
+            <g key={`b-${i}`}>
+                <circle
+                    cx={xScale(item.date)}
+                    cy={yScale(item.totals / 60)}
+                    r={8}
+                    fill={bColor}
+                    stroke={bColor}
+                    opacity={'0.8'}
+                    onMouseEnter={() =>
+                        setHovered({
+                            xPos: xScale(item.date),
+                            yPos: yScale(item.totals / 60),
+                            name: item.event,
+                            totals: (item.totals / 60),
+                            date: item.date,
+                            time: item.time
+                        })
+                    }
+                    onMouseLeave={() => setHovered(null)}
+                />
+                <circle
+                    cx={xScale(item.date)}
+                    cy={yScale(item.pTotals / 60)}
+                    r={8}
+                    fill={pColor}
+                    stroke={pColor}
+                    opacity={'0.8'}
+                    onMouseEnter={() =>
+                        setHovered({
+                            xPos: xScale(item.date),
+                            yPos: yScale(item.pTotals / 60),
+                            name: item.event,
+                            totals: (item.totals / 60),
+                            date: item.date,
+                            time: item.pTime
+                        })
+                    }
+                    onMouseLeave={() => setHovered(null)}
+                />
+            </g>
         );
     });
 
@@ -117,6 +134,13 @@ export const LineChart = ({
                     <path
                         d={linePath}
                         stroke={bColor}
+                        opacity={'0.7'}
+                        fill="none"
+                        strokeWidth={2}
+                    />
+                    <path
+                        d={pLinePath}
+                        stroke={pColor}
                         opacity={'0.7'}
                         fill="none"
                         strokeWidth={2}
