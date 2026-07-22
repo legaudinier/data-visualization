@@ -112,7 +112,7 @@ export const LineChart = ({
                             xPos: xScale(item.date),
                             yPos: yScale(item.pTotals / 60),
                             name: item.event,
-                            totals: (item.totals / 60),
+                            totals: (item.pTotals / 60),
                             date: item.date,
                             time: item.pTime
                         })
