@@ -3,6 +3,8 @@ import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/Tooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
 import { type OrderedDataType } from '../orderedData';
+import { bColor } from '../dataTools'
+
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
@@ -89,7 +91,9 @@ export const LineChart = ({
                 cx={xScale(item.date)}
                 cy={yScale(item.totals / 60)}
                 r={8}
-                fill={'#672be0'}
+                fill={bColor}
+                stroke={bColor}
+                opacity={'0.8'}
                 onMouseEnter={() =>
                     setHovered({
                         xPos: xScale(item.date),
@@ -115,8 +119,8 @@ export const LineChart = ({
                 >
                     <path
                         d={linePath}
-                        opacity={0.3}
-                        stroke="#52b1e8"
+                        stroke={bColor}
+                        opacity={'0.7'}
                         fill="none"
                         strokeWidth={2}
                     />

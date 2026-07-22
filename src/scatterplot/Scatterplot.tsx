@@ -4,6 +4,8 @@ import { AxisBottom } from "./AxisBottom";
 import { useState } from "react";
 import { Tooltip } from '../tooltips/Tooltip'
 import type { InteractionData } from '../tooltips/Tooltip'
+import { bColor, pColor } from '../dataTools'
+
 
 const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
 type DataPoint = {
@@ -38,11 +40,12 @@ export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
     const colorScale = d3
         .scaleOrdinal<string>()
         .domain(allGroups)
-        .range(["#672be0", "#52b1e8", "#6bd2e1", "#9a6fb0", "#a53253"]);
+        .range([pColor, bColor]);
 
     // Build the shapes
     const allShapes = data.map((d, i) => {
         return (
+            // if its hovered, then change the color of the bubble
             <circle
                 key={i}
                 r={10}

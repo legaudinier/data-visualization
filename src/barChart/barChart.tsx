@@ -1,5 +1,7 @@
 import * as d3 from 'd3';
 import { type OrderedDataType } from '../orderedData';
+import { bColor , pColor} from '../dataTools'
+
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
 const BAR_PADDING = .3;
@@ -9,6 +11,7 @@ type BarplotProps = {
     height: number;
     data: OrderedDataType[]
 };
+// TO DO - you need to make a key here
 
 export const BarChart = ({ width, height, data }: BarplotProps) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
@@ -98,8 +101,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     width={xScale.bandwidth() - 10} // half the width
                     height={boundsHeight - yScale(d.totals / 60)}
                     opacity={0.9}
-                    stroke="#3b0fbf"
-                    fill="#455ad1"
+                    stroke={bColor}
+                    fill={bColor}
                     fillOpacity={0.6}
                     strokeWidth={1}
                     rx={1}
@@ -120,8 +123,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     width={xScale.bandwidth() - 10} // half the width
                     height={boundsHeight - yScale(d.pTotals / 60)}
                     opacity={0.9}
-                    stroke="#d812bd"
-                    fill="#a019c5"
+                    stroke={pColor}
+                    fill={pColor}
                     fillOpacity={0.6}
                     strokeWidth={1}
                     rx={1}

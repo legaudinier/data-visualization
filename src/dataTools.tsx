@@ -1,5 +1,9 @@
 import { orderedData } from "./orderedData";
 
+export const bColor = '#672be0'
+export const pColor = '#52b1e8'
+export const allColor = '#0b7028'
+
 export const allBData: any = orderedData.filter(x => x?.event === 'B');
 export const allPData: any = orderedData.filter(x => x?.event === 'P');
 
