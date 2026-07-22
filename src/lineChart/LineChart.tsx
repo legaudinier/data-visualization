@@ -3,8 +3,7 @@ import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/Tooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
 import { type OrderedDataType } from '../orderedData';
-import { bColor } from '../dataTools'
-
+import { bColor, combinedResults } from '../dataTools'
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
@@ -44,16 +43,14 @@ export const LineChart = ({
     }, []);
 
     // Y axis
-    // const [min, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
-    const [, max] = d3.extent(dataSummed, (d: any) => (d.totals / 60));
+    const [, max] = d3.extent(combinedResults, (d: any) => (d.totals / 60));
     const yScale = d3
         .scaleLinear()
         .domain([0, max || 0])
         .range([boundsHeight, 0]);
 
     // X axis
-    // const [xMin, xMax] = d3.extent(dataSummed, (d: any) => d.date);
-    const [, xMax] = d3.extent(dataSummed, (d: any) => d.date);
+    const [, xMax] = d3.extent(combinedResults, (d: any) => d.date);
     const xScale = d3
         .scaleLinear()
         .domain([0, xMax || 0])
@@ -84,7 +81,7 @@ export const LineChart = ({
     }
 
     // Build the circles
-    const allCircles = dataSummed.map((item: OrderedDataType, i: number) => {
+    const allCircles = combinedResults.map((item: any, i: number) => {
         return (
             <circle
                 key={i}
