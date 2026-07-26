@@ -53,12 +53,14 @@ function App() {
         </div>
         <div style={{display: 'flex'}}>
           <div><Scatterplot data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} /></div>
-          {/* hide / alter the bottom axis on the line chart */}
           <div><LineChart data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} /></div>
+        </div>
+          <div style={{display: 'flex'}}>
+          <div><BarChart data={orderedData} width={400} height={300} hideData={true}/></div>
         </div>
         {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} circleSize={10} hideToolTip={false} />}
         {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8}  hideToolTip={false} />}
-        {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} />}
+        {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} hideData={false}/>}
         {/* donut chart all the breadown */}
       </div>
     </>

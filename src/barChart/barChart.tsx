@@ -1,22 +1,23 @@
 import * as d3 from 'd3';
 import { type OrderedDataType } from '../orderedData';
-import { bColor , pColor} from '../dataTools'
+import { bColor, pColor } from '../dataTools'
 
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
-const BAR_PADDING = .3;
 
 type BarplotProps = {
     width: number;
     height: number;
     data: OrderedDataType[]
+    hideData: boolean
 };
 // TO DO - you need to make a key here
 
-export const BarChart = ({ width, height, data }: BarplotProps) => {
+export const BarChart = ({ width, height, data, hideData }: BarplotProps) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+    const BAR_PADDING = hideData ? .01 : .3;
 
 
     // Filter to only show the B events
@@ -96,9 +97,9 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             <g key={i}>
                 {/* B data */}
                 <rect
-                    x={x + 10}
+                    x={hideData ? x : x + 10}
                     y={yScale(d.totals / 60)}
-                    width={xScale.bandwidth() - 10} // half the width
+                    width={hideData ? xScale.bandwidth() : xScale.bandwidth() - 10} // half the width
                     height={boundsHeight - yScale(d.totals / 60)}
                     opacity={0.9}
                     stroke={bColor}
@@ -107,20 +108,21 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     strokeWidth={1}
                     rx={1}
                 />
-                <text
-                    x={(x + xScale.bandwidth() / 2) + 5}
-                    y={yScale(d.totals / 60) - 10}
-                    textAnchor="middle"
-                    alignmentBaseline="mathematical"
-                    fontSize={12}
-                >
-                    {(d.totals / 60).toFixed(0)}
-                </text>
+                {!hideData &&
+                    <text
+                        x={(x + xScale.bandwidth() / 2) + 5}
+                        y={yScale(d.totals / 60) - 10}
+                        textAnchor="middle"
+                        alignmentBaseline="mathematical"
+                        fontSize={12}
+                    >
+                        {(d.totals / 60).toFixed(0)}
+                    </text>}
                 {/* P data */}
                 <rect
-                    x={x + 20}
+                    x={hideData ? x : x + 20}
                     y={yScale(d.pTotals / 60)}
-                    width={xScale.bandwidth() - 10} // half the width
+                    width={ hideData ? xScale.bandwidth() : xScale.bandwidth() - 10} // half the width
                     height={boundsHeight - yScale(d.pTotals / 60)}
                     opacity={0.9}
                     stroke={pColor}
@@ -129,25 +131,27 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
                     strokeWidth={1}
                     rx={1}
                 />
-                <text
-                    x={(x + xScale.bandwidth() / 2) + 16}
-                    y={yScale(d.pTotals / 60) - 10}
-                    textAnchor="middle"
-                    alignmentBaseline="mathematical"
-                    fontSize={12}
-                >
-                    {(d.pTotals !== undefined && (d.pTotals / 60).toFixed(0))}
-                </text>
-                <text
-                    x={(x + xScale.bandwidth() / 2) + 10}
-                    y={boundsHeight + 10}
-                    textAnchor="middle"
-                    alignmentBaseline="central"
-                    fontSize={12}
-                >
-                    {d.date}
-                </text>
-            </g>
+                {!hideData &&
+                    <text
+                        x={(x + xScale.bandwidth() / 2) + 16}
+                        y={yScale(d.pTotals / 60) - 10}
+                        textAnchor="middle"
+                        alignmentBaseline="mathematical"
+                        fontSize={12}
+                    >
+                        {(d.pTotals !== undefined && (d.pTotals / 60).toFixed(0))}
+                    </text>}
+                {!hideData &&
+                    <text
+                        x={(x + xScale.bandwidth() / 2) + 10}
+                        y={boundsHeight + 10}
+                        textAnchor="middle"
+                        alignmentBaseline="central"
+                        fontSize={12}
+                    >
+                        {d.date}
+                    </text>}
+            </g >
         );
     });
 
