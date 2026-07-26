@@ -19,9 +19,11 @@ type ScatterplotProps = {
     width: number;
     height: number;
     data: DataPoint[];
+    circleSize: number;
+    hideToolTip: boolean;
 };
 
-export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
+export const Scatterplot = ({ width, height, data, circleSize, hideToolTip }: ScatterplotProps) => {
     const boundsWidth: any = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -48,7 +50,7 @@ export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
             // if its hovered, then change the color of the bubble
             <circle
                 key={i}
-                r={10}
+                r={circleSize}
                 cx={xScale(d.date)}
                 cy={yScale(Number(d.time.split(':')[0]) + Number(d.time.split(':')[1] / 60))}
                 stroke={colorScale(d.event)}
@@ -95,20 +97,21 @@ export const Scatterplot = ({ width, height, data }: ScatterplotProps) => {
             </svg>
 
             {/* Tooltip */}
-            <div
-                style={{
-                    width: boundsWidth,
-                    height: boundsHeight,
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    pointerEvents: "none",
-                    marginLeft: MARGIN.left,
-                    marginTop: MARGIN.top,
-                }}
-            >
-                <Tooltip interactionData={hovered} />
-            </div>
+            {!hideToolTip &&
+                <div
+                    style={{
+                        width: boundsWidth,
+                        height: boundsHeight,
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        pointerEvents: "none",
+                        marginLeft: MARGIN.left,
+                        marginTop: MARGIN.top,
+                    }}
+                >
+                    <Tooltip interactionData={hovered} />
+                </div>}
         </div>
     );
 };

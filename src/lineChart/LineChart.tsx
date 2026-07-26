@@ -10,13 +10,16 @@ const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 type LineChart = {
     width: number;
     height: number;
-    data: OrderedDataType[];
+    data?: OrderedDataType[];
+    hideToolTip: boolean
+    circleSize: number
 };
 
 export const LineChart = ({
     width,
     height,
-    data,
+    circleSize,
+    hideToolTip
 }: LineChart) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
     const axesRef = useRef(null);
@@ -25,8 +28,16 @@ export const LineChart = ({
     const dateTicks: any = [] // fix this any
     const [hovered, setHovered] = useState<InteractionData | null>(null);
 
-    for (let i = 0; i <= 700; i += 10) {
-        dateTicks.push(i);
+    if (hideToolTip) {
+
+        for (let i = 0; i <= 700; i += 100) {
+            dateTicks.push(i);
+        }
+    }
+    else {
+        for (let i = 0; i <= 700; i += 10) {
+            dateTicks.push(i);
+        }
     }
 
     // Y axis
@@ -84,7 +95,7 @@ export const LineChart = ({
                 <circle
                     cx={xScale(item.date)}
                     cy={yScale(item.totals / 60)}
-                    r={8}
+                    r={circleSize}
                     fill={bColor}
                     stroke={bColor}
                     opacity={'0.8'}
@@ -103,7 +114,7 @@ export const LineChart = ({
                 <circle
                     cx={xScale(item.date)}
                     cy={yScale(item.pTotals / 60)}
-                    r={8}
+                    r={circleSize}
                     fill={pColor}
                     stroke={pColor}
                     opacity={'0.8'}
@@ -166,7 +177,7 @@ export const LineChart = ({
                     marginTop: MARGIN.top,
                 }}
             >
-                <LineChartTooltip interactionData={hovered} />
+                {!hideToolTip && <LineChartTooltip interactionData={hovered} />}
             </div>
         </div>
     );
