@@ -84,7 +84,7 @@ export const LineChart = ({
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.pTotals / 60));
     const pLinePath = pLineBuilder(combinedResults);
-    if (!linePath) {
+    if (!pLinePath) {
         return null;
     }
 

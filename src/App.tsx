@@ -18,7 +18,7 @@ function App() {
       <div
         style={{
           width: '95%',
-          height: '1075px',
+          // height: '1075px',
           overflowY: 'scroll',
           paddingTop: '20px',
           fontFamily: 'Arial, Helvetica, sans-serif'
