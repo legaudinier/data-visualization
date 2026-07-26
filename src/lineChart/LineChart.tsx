@@ -90,6 +90,7 @@ export const LineChart = ({
 
     // Build the circles
     const allCircles = combinedResults.map((item: any, i: number) => {
+
         return (
             <g key={`b-${i}`}>
                 <circle
@@ -111,25 +112,26 @@ export const LineChart = ({
                     }
                     onMouseLeave={() => setHovered(null)}
                 />
-                <circle
-                    cx={xScale(item.date)}
-                    cy={yScale(item.pTotals / 60)}
-                    r={circleSize}
-                    fill={pColor}
-                    stroke={pColor}
-                    opacity={'0.8'}
-                    onMouseEnter={() =>
-                        setHovered({
-                            xPos: xScale(item.date),
-                            yPos: yScale(item.pTotals / 60),
-                            name: item.event,
-                            totals: (item.pTotals / 60),
-                            date: item.date,
-                            time: item.pTime
-                        })
-                    }
-                    onMouseLeave={() => setHovered(null)}
-                />
+                {item.pTotals !== undefined &&
+                    <circle
+                        cx={xScale(item.date)}
+                        cy={yScale(item.pTotals / 60)}
+                        r={circleSize}
+                        fill={pColor}
+                        stroke={pColor}
+                        opacity={'0.8'}
+                        onMouseEnter={() =>
+                            setHovered({
+                                xPos: xScale(item.date),
+                                yPos: yScale(item.pTotals / 60),
+                                name: item.event,
+                                totals: (item.pTotals / 60),
+                                date: item.date,
+                                time: item.pTime
+                            })
+                        }
+                        onMouseLeave={() => setHovered(null)}
+                    />}
             </g>
         );
     });
