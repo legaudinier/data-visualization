@@ -5,12 +5,12 @@ import * as d3 from "d3";
 type HeatmapProps = {
     width: number;
     height: number;
-    data: { x: string; y: string; value: number }[];
+    data: { x: any; y: any; value: number }[];
 };
 
 export type InteractionData = {
-    xLabel: string;
-    yLabel: string;
+    xLabel: number;
+    yLabel: number;
     xPos: number;
     yPos: number;
     value: number;
@@ -27,7 +27,8 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
     const allYGroups = useMemo(() => [...new Set(data.map((d) => d.y))], [data]);
     const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
 
-    const [min = 0, max = 0] = d3.extent(data.map((d) => d.value)); // extent can return [undefined, undefined], default to [0,0] to fix types
+    const [min = 0, max = 0] = d3.extent(data.map((d) => d.value));
+    console.log('min', min, max)
 
     const xScale = useMemo(() => {
         return d3
@@ -48,7 +49,11 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
     var colorScale = d3
         .scaleSequential()
         .interpolator(d3.interpolateInferno)
-        .domain([min, max]);
+        .domain([8, 100])
+    // .scaleLinear()
+    // .range(["white", "#06a781"])
+    // .domain([min, max])
+
 
     // Build the rectangles
     const allShapes = data.map((d, i) => {
@@ -58,6 +63,16 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
         if (d.value === null || !x || !y) {
             return;
         }
+        // console.log('colorScale(d.value)', `${colorScale(d.value)}`)
+
+        function getRandomRgb() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        console.log(getRandomRgb()); // Output: "rgb(42, 187, 211)"
 
         return (
             <rect
@@ -68,20 +83,21 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
                 width={xScale.bandwidth()}
                 height={yScale.bandwidth()}
                 opacity={1}
-                fill={colorScale(d.value)}
-                rx={5}
-                stroke={"white"}
-                // onMouseEnter={(e) => {
-                //     setHoveredCell({
-                //         xLabel: "group " + d.x,
-                //         yLabel: "group " + d.y,
-                //         xPos: x + xScale.bandwidth() + MARGIN.left,
-                //         yPos: y + xScale.bandwidth() / 2 + MARGIN.top,
-                //         value: Math.round(d.value * 100) / 100,
-                //     });
-                // }}
-                // onMouseLeave={() => setHoveredCell(null)}
-                cursor="pointer"
+                fill={`${colorScale(d.value)}`}
+                stroke={`${getRandomRgb()}`}
+                rx={0}
+            // stroke={'white'}
+            // onMouseEnter={(e) => {
+            //     setHoveredCell({
+            //         xLabel: "group " + d.x,
+            //         yLabel: "group " + d.y,
+            //         xPos: x + xScale.bandwidth() + MARGIN.left,
+            //         yPos: y + xScale.bandwidth() / 2 + MARGIN.top,
+            //         value: Math.round(d.value * 100) / 100,
+            //     });
+            // }}
+            // onMouseLeave={() => setHoveredCell(null)}
+            // cursor="pointer"
             />
         );
     });

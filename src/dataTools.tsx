@@ -65,3 +65,24 @@ export const combinedResults = Object.values(
         return acc;
     }, {})
 );
+
+const box = Array.from({ length: 31 }, (_, index) => index);
+
+type HeatmapDataType = { x: number; y: number; value: number }[];
+
+let HeatmapData: HeatmapDataType = [];
+
+
+for (let x = 0; x < 25; x++) {       // Outer loop
+    for (let y = 0; y < 31; y++) {   // Middle loop
+        for (let z = 25; z < 31; z++) { // Inner loop
+            HeatmapData.push({
+                x: box[x],
+                y: box[y],
+                value: combinedMap[z].totals,
+            });
+        }
+    }
+}
+
+export {HeatmapData}
