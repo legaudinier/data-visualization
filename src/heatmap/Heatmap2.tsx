@@ -46,7 +46,7 @@ export const Heatmap2 = ({ width, height, data }: Heatmap2Props) => {
     }, [data, height]);
 
     var colorScale = d3
-        .scaleLinear()
+        .scaleLinear<string, string>()
         .range(['#e5dff0', pColor])
         .domain([min, max])
 
