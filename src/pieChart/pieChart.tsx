@@ -18,14 +18,14 @@ const MARGIN_X = 150;
 const MARGIN_Y = 50;
 const INFLEXION_PADDING = 20; // space between donut and label inflexion point
 
-const colors = [
-    "#e0ac2b",
-    "#e85252",
-    "#6689c6",
-    "#9a6fb0",
-    "#a53253",
-    "#69b3a2",
-];
+// const colors = [
+//     "#e0ac2b",
+//     "#e85252",
+//     "#6689c6",
+//     "#9a6fb0",
+//     "#a53253",
+//     "#69b3a2",
+// ];
 
 export const PieChart = ({ width, height, data }: PieChartProps) => {
     const ref = useRef(null);
@@ -48,7 +48,7 @@ export const PieChart = ({ width, height, data }: PieChartProps) => {
             endAngle: grp.endAngle,
         };
         const centroid = arcGenerator.centroid(sliceInfo);
-        const slicePath = arcGenerator(sliceInfo);
+        // const slicePath = arcGenerator(sliceInfo);
 
         // Second arc is for the legend inflexion point
         const inflexionInfo = {
@@ -79,7 +79,7 @@ export const PieChart = ({ width, height, data }: PieChartProps) => {
                 //     }
                 // }}
             >
-                <path d={slicePath} fill={colors[i]} />
+                {/* <path d={slicePath} fill={colors[i]} /> */}
                 <circle cx={centroid[0]} cy={centroid[1]} r={2} />
                 <line
                     x1={centroid[0]}

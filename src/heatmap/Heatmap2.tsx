@@ -68,7 +68,7 @@ export const Heatmap2 = ({ width, height, data }: Heatmap2Props) => {
                 width={xScale.bandwidth()}
                 height={yScale.bandwidth()}
                 opacity={.99}
-                fill={(colorScale(d.value))}
+                fill={`${(colorScale(d.value))}`}
                 rx={0}
                 stroke={'white'}
             />

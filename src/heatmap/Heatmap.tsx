@@ -46,7 +46,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
     }, [data, height]);
 
     var colorScale = d3
-        .scaleLinear()
+        .scaleLinear<string, string>()
         .range(['#e5dff0', bColor])
         .domain([min, max])
 
@@ -68,7 +68,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
                 width={xScale.bandwidth()}
                 height={yScale.bandwidth()}
                 opacity={.99}
-                fill={(colorScale(d.value))}
+                fill={`${(colorScale(d.value))}`}
                 rx={0}
                 stroke={'white'}
             />
