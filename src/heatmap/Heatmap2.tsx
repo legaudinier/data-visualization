@@ -69,7 +69,6 @@ export const Heatmap2 = ({ width, height, data }: Heatmap2Props) => {
                 height={yScale.bandwidth()}
                 opacity={.99}
                 fill={(colorScale(d.value))}
-                // fill={`${getRandomRgb()}`}
                 rx={0}
                 stroke={'white'}
             />

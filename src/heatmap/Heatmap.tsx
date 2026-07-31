@@ -28,7 +28,6 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
     const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
 
     const [min = 0, max = 0] = d3.extent(data.map((d) => d.value));
-    console.log('min', min, max)
 
     const xScale = useMemo(() => {
         return d3

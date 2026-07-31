@@ -92,8 +92,8 @@ export { HeatmapData }
 
 let HeatmapData2: HeatmapDataType = [];
 
-for (let x = 0; x < 20; x++) {
-    for (let y = 0; y < 20; y++) {
+for (let x = 0; x < 22; x++) {
+    for (let y = 0; y < 12; y++) {
         HeatmapData2.push({
             x: alphabet[x],
             y: box[y],
@@ -103,7 +103,9 @@ for (let x = 0; x < 20; x++) {
 }
 
 for (let z = 25; z < HeatmapData2.length; z++) {
-    HeatmapData2[z].value = pCombinedMap[z].totals
+    HeatmapData2[z].value = pCombinedMap[z].pTotals
 }
+
+console.log('HeatmapData2', HeatmapData2)
 
 export { HeatmapData2 }
