@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import * as d3 from "d3";
-import { bColor } from "../dataTools";
+import { pColor } from "../dataTools";
 
-type HeatmapProps = {
+type Heatmap2Props = {
     width: number;
     height: number;
     data: { x: any; y: any; value: number }[];
@@ -18,7 +18,7 @@ export type InteractionData = {
 
 const MARGIN = { top: 10, right: 50, bottom: 30, left: 50 };
 
-export const Heatmap = ({ width, height, data }: HeatmapProps) => {
+export const Heatmap2 = ({ width, height, data }: Heatmap2Props) => {
     //   const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
 
     const boundsWidth = width - MARGIN.right - MARGIN.left;
@@ -28,7 +28,6 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
     const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
 
     const [min = 0, max = 0] = d3.extent(data.map((d) => d.value));
-    console.log('min', min, max)
 
     const xScale = useMemo(() => {
         return d3
@@ -48,7 +47,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
 
     var colorScale = d3
         .scaleLinear()
-        .range(['#e5dff0', bColor])
+        .range(['#e5dff0', pColor])
         .domain([min, max])
 
     // Build the rectangles
@@ -70,6 +69,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
                 height={yScale.bandwidth()}
                 opacity={.99}
                 fill={(colorScale(d.value))}
+                // fill={`${getRandomRgb()}`}
                 rx={0}
                 stroke={'white'}
             />
