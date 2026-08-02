@@ -16,10 +16,12 @@ import {
   HeatmapData,
   HeatmapData2
 } from './dataTools'
+import { Modal } from './modal'
 import './App.css'
 
 function App() {
   const [active, setActive] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 
   // To Do
@@ -31,7 +33,7 @@ function App() {
       <div
         style={{
           width: '95%',
-          overflowY: 'scroll',
+          // overflowY: 'scroll',
           paddingTop: '20px',
           fontFamily: 'Arial, Helvetica, sans-serif'
         }}>
@@ -46,38 +48,45 @@ function App() {
             <div style={{ fontWeight: 'bold' }}>Amount: <span style={{ color: pColor }}>P oz</span></div>
           </div>
         </div>
-        {/* make this take up the width, not multiple divs */}
-        <div style={{ display: 'flex' }}>
-          <div onClick={() => setActive('scatterplot')} className="svgContainer">
-            <Scatterplot data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap'
+        }}>
+          <div onClick={() => { setActive('scatterplot'); setIsModalOpen(true) }} className="svgContainer">
+            <Scatterplot data={orderedData} width={375} height={300} circleSize={1} hideToolTip={true} />
           </div>
-          <div onClick={() => setActive('p')} className="svgContainer">
-            <LineChart data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} />
+          <div onClick={() => { setActive('p'); setIsModalOpen(true) }} className="svgContainer">
+            <LineChart data={orderedData} width={375} height={300} circleSize={1} hideToolTip={true} />
+          </div>
+          <div onClick={() => { setActive('totals'); setIsModalOpen(true) }} className="svgContainer">
+            <BarChart data={orderedData} width={375} height={300} hideData={true} />
+          </div>
+          <div onClick={() => { setActive('bHeatmap'); setIsModalOpen(true) }} className="svgContainer">
+            <Heatmap data={HeatmapData} width={375} height={300} />
+          </div>
+          <div onClick={() => { setActive('pHeatmap'); setIsModalOpen(true) }} className="svgContainer">
+            <Heatmap2 data={HeatmapData2} width={375} height={300} />
           </div>
         </div>
-        <div style={{ display: 'flex' }}>
-          <div onClick={() => setActive('totals')} className="svgContainer">
-            <BarChart data={orderedData} width={400} height={300} hideData={true} />
-          </div>
-          <div onClick={() => setActive('bHeatmap')} className="svgContainer">
-            <Heatmap data={HeatmapData} width={400} height={300} />
-          </div>
-        </div>
-        <div style={{ display: 'flex' }}>
-          <div onClick={() => setActive('pHeatmap')} className="svgContainer">
-            <Heatmap2 data={HeatmapData2} width={400} height={300} />
-          </div>
-        </div>
-        {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} circleSize={10} hideToolTip={false} />}
-        {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8} hideToolTip={false} />}
-        {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} hideData={false} />}
-        {active === 'bHeatmap' && <Heatmap data={HeatmapData} width={1000} height={800} />}
-        {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />}
-
-
         {/* donut chart all the breadown */}
         {/* <PieChart data={data} width={400} height={400} /> */}
-        {/* <Heatmap data={HeatmapData} width={400} height={400} /> */}
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title={active === 'scatterplot' ? 'Daily Scatterplot'
+            : active === 'p' ? 'Daily Line Plot'
+              : active === 'totals' ? 'Bar Chart Totals'
+                : active === 'bHeatmap' ? 'HeatMap - B Data'
+                  : 'HeatMap - P Data'
+          }
+        >
+          {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={800} circleSize={10} hideToolTip={false} />}
+          {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8} hideToolTip={false} />}
+          {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} hideData={false} />}
+          {active === 'bHeatmap' && <Heatmap data={HeatmapData} width={1000} height={800} />}
+          {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />}
+        </Modal>
       </div>
     </>
   )
