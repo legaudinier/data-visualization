@@ -106,6 +106,4 @@ for (let z = 25; z < HeatmapData2.length; z++) {
     HeatmapData2[z].value = pCombinedMap[z].pTotals
 }
 
-console.log('HeatmapData2', HeatmapData2)
-
 export { HeatmapData2 }
