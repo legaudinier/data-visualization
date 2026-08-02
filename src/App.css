@@ -20,3 +20,8 @@ button:hover,
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+.svgContainer:hover {
+    cursor: 'pointer';
+    background: #f9f9f9;
+}

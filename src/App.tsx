@@ -31,29 +31,11 @@ function App() {
       <div
         style={{
           width: '95%',
-          // height: '1075px',
           overflowY: 'scroll',
           paddingTop: '20px',
           fontFamily: 'Arial, Helvetica, sans-serif'
         }}>
         <div style={{ width: '1000px', display: 'flex', flexDirection: 'row' }}>
-          <div style={{ marginLeft: '30px', display: 'flex', width: '250px', flexDirection: 'column' }}>
-            <button
-              onClick={() => setActive('scatterplot')}
-              className={`${active === 'scatterplot' ? 'activeButton' : 'button'}`}>
-              Daily Scatterplot
-            </button>
-            <button
-              onClick={() => setActive('p')}
-              className={`${active === 'p' ? 'activeButton' : 'button'}`}>
-              Daily Line Chart Breakdown
-            </button>
-            <button
-              onClick={() => setActive('totals')}
-              className={`${active === 'totals' ? 'activeButton' : 'button'}`}>
-              Daily Bar Chart Breakdown
-            </button>
-          </div>
           <div style={{ marginLeft: '40px' }}>
             <h1 style={{ marginTop: '0', marginBottom: '15px' }}>Totals</h1>
             <div style={{ fontWeight: 'bold' }}>Events: <span style={{ color: allColor }}>All ({allBData.length + allPData.length})</span> |
@@ -64,20 +46,35 @@ function App() {
             <div style={{ fontWeight: 'bold' }}>Amount: <span style={{ color: pColor }}>P oz</span></div>
           </div>
         </div>
+        {/* make this take up the width, not multiple divs */}
         <div style={{ display: 'flex' }}>
-          <div><Scatterplot data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} /></div>
-          <div><LineChart data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} /></div>
+          <div onClick={() => setActive('scatterplot')} className="svgContainer">
+            <Scatterplot data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} />
+          </div>
+          <div onClick={() => setActive('p')} className="svgContainer">
+            <LineChart data={orderedData} width={400} height={300} circleSize={1} hideToolTip={true} />
+          </div>
         </div>
         <div style={{ display: 'flex' }}>
-          <div><BarChart data={orderedData} width={400} height={300} hideData={true} /></div>
-          <div><Heatmap data={HeatmapData} width={400} height={300} /></div>
+          <div onClick={() => setActive('totals')} className="svgContainer">
+            <BarChart data={orderedData} width={400} height={300} hideData={true} />
+          </div>
+          <div onClick={() => setActive('bHeatmap')} className="svgContainer">
+            <Heatmap data={HeatmapData} width={400} height={300} />
+          </div>
         </div>
         <div style={{ display: 'flex' }}>
-          <div><Heatmap2 data={HeatmapData2} width={400} height={300} /></div>
+          <div onClick={() => setActive('pHeatmap')} className="svgContainer">
+            <Heatmap2 data={HeatmapData2} width={400} height={300} />
+          </div>
         </div>
         {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={1000} circleSize={10} hideToolTip={false} />}
         {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8} hideToolTip={false} />}
         {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} hideData={false} />}
+        {active === 'bHeatmap' && <Heatmap data={HeatmapData} width={1000} height={800} />}
+        {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />}
+
+
         {/* donut chart all the breadown */}
         {/* <PieChart data={data} width={400} height={400} /> */}
         {/* <Heatmap data={HeatmapData} width={400} height={400} /> */}
