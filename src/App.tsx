@@ -4,7 +4,7 @@ import { Scatterplot } from "./scatterplot/Scatterplot";
 import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
 // import { PieChart } from './pieChart/pieChart';
-import { Heatmap } from './heatmaps/Heatmap';
+import { Heatmap } from './heatmap/Heatmap';
 import {
   allBData,
   allPData,
@@ -95,7 +95,6 @@ function App() {
             heatmapVersion={'b'} />}
           {active === 'pHeatmap' && <Heatmap width={1000} height={800} hideTooltip={false}
             heatmapVersion={'p'} />}
-          {/* {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />} */}
         </Modal>
       </div>
     </>
