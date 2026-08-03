@@ -66,14 +66,14 @@ export const combinedResults = Object.values(
     }, {})
 );
 
-const box = Array.from({ length: 31 }, (_, index) => index);
+const box = Array.from({ length: 35 }, (_, index) => index);
 
 type HeatmapDataType = { x: any; y: any; value: number }[];
 
 let HeatmapDataB: HeatmapDataType = [];
 
-for (let x = 0; x < 26; x++) {
-    for (let y = 0; y < 26; y++) {
+for (let x = 0; x < 22; x++) {
+    for (let y = 0; y < 31; y++) {
         HeatmapDataB.push({
             x: box[x],
             y: box[y],
@@ -88,10 +88,12 @@ for (let z = 25; z < HeatmapDataB.length; z++) {
 
 export { HeatmapDataB }
 
+console.log('HeatmapDataB', HeatmapDataB)
+
 let HeatmapDataP: HeatmapDataType = [];
 
-for (let x = 0; x < 22; x++) {
-    for (let y = 0; y < 12; y++) {
+for (let x = 0; x < 12; x++) {
+    for (let y = 0; y < 30; y++) {
         HeatmapDataP.push({
             x: box[x],
             y: box[y],
