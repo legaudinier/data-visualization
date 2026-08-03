@@ -88,8 +88,6 @@ for (let z = 25; z < HeatmapDataB.length; z++) {
 
 export { HeatmapDataB }
 
-console.log('HeatmapDataB', HeatmapDataB)
-
 let HeatmapDataP: HeatmapDataType = [];
 
 for (let x = 0; x < 12; x++) {
