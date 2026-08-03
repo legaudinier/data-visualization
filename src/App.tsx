@@ -4,17 +4,14 @@ import { Scatterplot } from "./scatterplot/Scatterplot";
 import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
 // import { PieChart } from './pieChart/pieChart';
-import { Heatmap } from './heatmap/Heatmap';
-import { Heatmap2 } from './heatmap/Heatmap2';
+import { Heatmap } from './heatmaps/Heatmap';
 import {
   allBData,
   allPData,
   allTotalsArray,
   bColor,
   pColor,
-  allColor,
-  HeatmapData,
-  HeatmapData2
+  allColor
 } from './dataTools'
 import { Modal } from './modal'
 import './App.css'
@@ -23,17 +20,18 @@ function App() {
   const [active, setActive] = useState('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-
   // To Do
-  // donut charts, heat maps, pie charts
-  // all charts render on the "homepage", you click on one and it opens up larger
+  // add a bubble chart on the per day for the size
+  // donut charts for the totals in the top
+  // legends in the charts
+  // tooltips working on all charts
+  // brush and zoom?
 
   return (
     <>
       <div
         style={{
           width: '95%',
-          // overflowY: 'scroll',
           paddingTop: '20px',
           fontFamily: 'Arial, Helvetica, sans-serif'
         }}>
@@ -53,6 +51,7 @@ function App() {
           flexDirection: 'row',
           flexWrap: 'wrap'
         }}>
+          {/* Smaller charts to click to maximize up */}
           <div onClick={() => { setActive('scatterplot'); setIsModalOpen(true) }} className="svgContainer">
             <Scatterplot data={orderedData} width={375} height={300} circleSize={1} hideToolTip={true} />
           </div>
@@ -60,13 +59,21 @@ function App() {
             <LineChart data={orderedData} width={375} height={300} circleSize={1} hideToolTip={true} />
           </div>
           <div onClick={() => { setActive('totals'); setIsModalOpen(true) }} className="svgContainer">
-            <BarChart data={orderedData} width={375} height={300} hideData={true} />
+            <BarChart width={375} height={300} hideData={true} />
           </div>
           <div onClick={() => { setActive('bHeatmap'); setIsModalOpen(true) }} className="svgContainer">
-            <Heatmap data={HeatmapData} width={375} height={300} />
+            <Heatmap
+              width={375}
+              height={300}
+              hideTooltip={true}
+              heatmapVersion={'b'} />
           </div>
           <div onClick={() => { setActive('pHeatmap'); setIsModalOpen(true) }} className="svgContainer">
-            <Heatmap2 data={HeatmapData2} width={375} height={300} />
+            <Heatmap
+              width={375}
+              height={300}
+              hideTooltip={true}
+              heatmapVersion={'p'} />
           </div>
         </div>
         {/* donut chart all the breadown */}
@@ -83,9 +90,12 @@ function App() {
         >
           {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={800} circleSize={10} hideToolTip={false} />}
           {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8} hideToolTip={false} />}
-          {active === 'totals' && <BarChart data={orderedData} width={20000} height={800} hideData={false} />}
-          {active === 'bHeatmap' && <Heatmap data={HeatmapData} width={1000} height={800} />}
-          {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />}
+          {active === 'totals' && <BarChart width={20000} height={800} hideData={false} />}
+          {active === 'bHeatmap' && <Heatmap width={1000} height={800} hideTooltip={false}
+            heatmapVersion={'b'} />}
+          {active === 'pHeatmap' && <Heatmap width={1000} height={800} hideTooltip={false}
+            heatmapVersion={'p'} />}
+          {/* {active === 'pHeatmap' && <Heatmap2 data={HeatmapData2} width={1000} height={800} />} */}
         </Modal>
       </div>
     </>

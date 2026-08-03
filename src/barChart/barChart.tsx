@@ -1,76 +1,27 @@
 import * as d3 from 'd3';
-import { type OrderedDataType } from '../orderedData';
-import { bColor, pColor } from '../dataTools'
-
+import { bColor, pColor, combinedResults, combinedMap } from '../dataTools'
 
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
 
 type BarplotProps = {
     width: number;
     height: number;
-    data: OrderedDataType[]
     hideData: boolean
 };
-// TO DO - you need to make a key here
 
-export const BarChart = ({ width, height, data, hideData }: BarplotProps) => {
+// TO DO - Add a legend
+
+export const BarChart = ({ width, height, hideData }: BarplotProps) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
     const BAR_PADDING = hideData ? .01 : .3;
 
-
-    // Filter to only show the B events
-    const bDataOnly: any = data.filter(x => x?.event === 'B');
-
-    // Combine all B events and sum their values
-    const combinedMap = bDataOnly.reduce((accumulator: any, currentItem: any) => {
-        const key = currentItem.date;
-
-        // If the category does not exist in our accumulator, initialize it
-        if (!accumulator[key]) {
-            accumulator[key] = { date: key, totals: 0, event: currentItem.event };
-        }
-
-        // Sum the amount into the existing category group
-        accumulator[key].totals += currentItem.totals;
-
-        return accumulator;
-    }, {});
-
-    // Filter to only show the P events
-    const pDataOnly: any = data.filter(x => x?.event === 'P');
-
-    // Combine all P events items and sum their values
-    const pCombinedMap = pDataOnly.reduce((accumulator: any, currentItem: any) => {
-        const key = currentItem.date;
-
-        // If the category does not exist in our accumulator, initialize it
-        if (!accumulator[key]) {
-            accumulator[key] = { date: key, pTotals: 0, pEvent: currentItem.event };
-        }
-
-        // Sum the amount into the existing category group
-        accumulator[key].pTotals += currentItem.totals;
-
-        return accumulator;
-    }, {});
-
     // Convert the grouped object values back into an array of objects
     const resultB = Object.values(combinedMap);
-    const resultP = Object.values(pCombinedMap)
 
     // Because there are all dates for B events, we can just use this as our grouping
     const dateGroups = resultB.map((d: any) => d.date);
-
-    // Combine both resultB and resultP based on their similar date values
-    const combinedResults = Object.values(
-        [...resultB as any, ...resultP as any].reduce((acc: any, current: any) => {
-            const key: any = current['date'];
-            acc[key] = acc[key] ? { ...acc[key], ...current } : { ...current };
-            return acc;
-        }, {})
-    );
 
     // X scale is the horizontal axis so this has to be the date groups
     const xScale = d3
@@ -122,7 +73,7 @@ export const BarChart = ({ width, height, data, hideData }: BarplotProps) => {
                 <rect
                     x={hideData ? x : x + 20}
                     y={yScale(d.pTotals / 60)}
-                    width={ hideData ? xScale.bandwidth() : xScale.bandwidth() - 10} // half the width
+                    width={hideData ? xScale.bandwidth() : xScale.bandwidth() - 10} // half the width
                     height={boundsHeight - yScale(d.pTotals / 60)}
                     opacity={0.9}
                     stroke={pColor}

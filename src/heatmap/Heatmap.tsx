@@ -1,11 +1,12 @@
 import { useMemo } from "react";
 import * as d3 from "d3";
-import { bColor } from "../dataTools";
+import { bColor, pColor, HeatmapDataB, HeatmapDataP } from "../dataTools";
 
 type HeatmapProps = {
     width: number;
     height: number;
-    data: { x: any; y: any; value: number }[];
+    hideTooltip: boolean
+    heatmapVersion: string
 };
 
 export type InteractionData = {
@@ -18,11 +19,14 @@ export type InteractionData = {
 
 const MARGIN = { top: 10, right: 50, bottom: 30, left: 50 };
 
-export const Heatmap = ({ width, height, data }: HeatmapProps) => {
+export const Heatmap = ({ width, height, hideTooltip, heatmapVersion }: HeatmapProps) => {
     //   const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
 
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+
+    const data = heatmapVersion === 'b' ? HeatmapDataB : HeatmapDataP
+    const color = heatmapVersion === 'b' ? bColor : pColor
 
     const allYGroups = useMemo(() => [...new Set(data.map((d) => d.y))], [data]);
     const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
@@ -47,7 +51,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
 
     var colorScale = d3
         .scaleLinear<string, string>()
-        .range(['#e5dff0', bColor])
+        .range(['#e5dff0', color])
         .domain([min, max])
 
     // Build the rectangles
@@ -61,7 +65,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
 
         return (
             <rect
-                key={i}
+                key={`${i}{heatmapVersion}`}
                 r={4}
                 x={xScale(d.x)}
                 y={yScale(d.y)}
@@ -81,6 +85,9 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
         if (!x) {
             return null;
         }
+        if (hideTooltip) {
+            return
+        }
 
         return (
             <text
@@ -91,7 +98,7 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
                 dominantBaseline="middle"
                 fontSize={10}
             >
-                {/* {name} */}
+                {name}
             </text>
         );
     });
@@ -101,6 +108,9 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
 
         if (!y) {
             return null;
+        }
+        if (hideTooltip) {
+            return
         }
 
         return (
@@ -112,13 +122,13 @@ export const Heatmap = ({ width, height, data }: HeatmapProps) => {
                 dominantBaseline="middle"
                 fontSize={10}
             >
-                {/* {name} */}
+                {name}
             </text>
         );
     });
 
     return (
-        <svg width={width} height={height}>
+        <svg width={width} height={height} id={`${heatmapVersion}svg`}>
             <g
                 width={boundsWidth}
                 height={boundsHeight}

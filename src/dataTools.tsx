@@ -24,7 +24,7 @@ const allTotals = orderedData.reduce((accumulator: any, currentItem: any) => {
 export const allTotalsArray: any[] = Object.values(allTotals);
 
 // Combine all B events and sum their values
-const combinedMap = allBData.reduce((accumulator: any, currentItem: any) => {
+export const combinedMap = allBData.reduce((accumulator: any, currentItem: any) => {
     const key = currentItem.date;
 
     // If the category does not exist in our accumulator, initialize it
@@ -68,42 +68,40 @@ export const combinedResults = Object.values(
 
 const box = Array.from({ length: 31 }, (_, index) => index);
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
-
 type HeatmapDataType = { x: any; y: any; value: number }[];
 
-let HeatmapData: HeatmapDataType = [];
+let HeatmapDataB: HeatmapDataType = [];
 
 for (let x = 0; x < 26; x++) {
     for (let y = 0; y < 26; y++) {
-        HeatmapData.push({
-            x: alphabet[x],
+        HeatmapDataB.push({
+            x: box[x],
             y: box[y],
             value: 0,
         });
     }
 }
 
-for (let z = 25; z < HeatmapData.length; z++) {
-    HeatmapData[z].value = combinedMap[z].totals
+for (let z = 25; z < HeatmapDataB.length; z++) {
+    HeatmapDataB[z].value = combinedMap[z].totals
 }
 
-export { HeatmapData }
+export { HeatmapDataB }
 
-let HeatmapData2: HeatmapDataType = [];
+let HeatmapDataP: HeatmapDataType = [];
 
 for (let x = 0; x < 22; x++) {
     for (let y = 0; y < 12; y++) {
-        HeatmapData2.push({
-            x: alphabet[x],
+        HeatmapDataP.push({
+            x: box[x],
             y: box[y],
             value: 0,
         });
     }
 }
 
-for (let z = 25; z < HeatmapData2.length; z++) {
-    HeatmapData2[z].value = pCombinedMap[z].pTotals
+for (let z = 25; z < HeatmapDataP.length; z++) {
+    HeatmapDataP[z].value = pCombinedMap[z].pTotals
 }
 
-export { HeatmapData2 }
+export { HeatmapDataP }
