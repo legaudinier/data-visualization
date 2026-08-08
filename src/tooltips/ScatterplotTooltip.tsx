@@ -14,7 +14,7 @@ type TooltipProps = {
     interactionData: InteractionData | null;
 };
 
-export const Tooltip = ({ interactionData }: TooltipProps) => {
+export const ScatterplotTooltip = ({ interactionData }: TooltipProps) => {
 
 
     const convertTime = (time: any) => {

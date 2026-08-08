@@ -2,8 +2,8 @@ import * as d3 from "d3";
 import { AxisLeft } from "./AxisLeft";
 import { AxisBottom } from "./AxisBottom";
 import { useState } from "react";
-import { Tooltip } from '../tooltips/Tooltip'
-import type { InteractionData } from '../tooltips/Tooltip'
+import { ScatterplotTooltip } from '../tooltips/ScatterplotTooltip'
+import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { bColor, pColor } from '../dataTools'
 
 
@@ -110,7 +110,7 @@ export const Scatterplot = ({ width, height, data, circleSize, hideToolTip }: Sc
                         marginTop: MARGIN.top,
                     }}
                 >
-                    <Tooltip interactionData={hovered} />
+                    <ScatterplotTooltip interactionData={hovered} />
                 </div>}
         </div>
     );

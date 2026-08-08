@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import * as d3 from "d3";
 import { bColor, pColor, HeatmapDataB, HeatmapDataP } from "../dataTools";
+import { HeatapTooltip } from "../tooltips/HeatmapTooltip";
 
 type HeatmapProps = {
     width: number;
@@ -10,8 +11,8 @@ type HeatmapProps = {
 };
 
 export type InteractionData = {
-    xLabel: number;
-    yLabel: number;
+    x: string;
+    y: string;
     xPos: number;
     yPos: number;
     value: number;
@@ -20,8 +21,7 @@ export type InteractionData = {
 const MARGIN = { top: 10, right: 50, bottom: 30, left: 50 };
 
 export const Heatmap = ({ width, height, hideTooltip, heatmapVersion }: HeatmapProps) => {
-    //   const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
-
+    const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -75,6 +75,17 @@ export const Heatmap = ({ width, height, hideTooltip, heatmapVersion }: HeatmapP
                 fill={`${(colorScale(d.value))}`}
                 rx={0}
                 stroke={'white'}
+                onMouseEnter={(e) => {
+                    setHoveredCell({
+                        x: "group " + d.x,
+                        y: "group " + d.y,
+                        xPos: x + xScale.bandwidth() + MARGIN.left,
+                        yPos: y + xScale.bandwidth() / 2 + MARGIN.top,
+                        value: Math.round(d.value * 100) / 100,
+                    });
+                }}
+                onMouseLeave={() => setHoveredCell(null)}
+                cursor="pointer"
             />
         );
     });
@@ -128,16 +139,21 @@ export const Heatmap = ({ width, height, hideTooltip, heatmapVersion }: HeatmapP
     });
 
     return (
-        <svg width={width} height={height} id={`${heatmapVersion}svg`}>
-            <g
-                width={boundsWidth}
-                height={boundsHeight}
-                transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-            >
-                {allShapes}
-                {xLabels}
-                {yLabels}
-            </g>
-        </svg>
+        <div>
+            <svg width={width} height={height} id={`${heatmapVersion}svg`}>
+                <g
+                    width={boundsWidth}
+                    height={boundsHeight}
+                    transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
+                >
+                    {allShapes}
+                    {xLabels}
+                    {yLabels}
+                </g>
+            </svg>
+            {!hideTooltip &&
+                <HeatapTooltip interactionData={hoveredCell} />}
+
+        </div>
     );
 };

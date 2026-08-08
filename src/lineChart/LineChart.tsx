@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
-import type { InteractionData } from '../tooltips/Tooltip'
+import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
 import { type OrderedDataType } from '../orderedData';
 import { bColor, pColor, combinedResults } from '../dataTools'
