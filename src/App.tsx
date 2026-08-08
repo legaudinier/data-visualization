@@ -5,6 +5,7 @@ import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
 // import { PieChart } from './pieChart/pieChart';
 import { Heatmap } from './heatmap/Heatmap';
+import { BubblePlot } from './bubblePlot/bubblePlot';
 import {
   allBData,
   allPData,
@@ -75,6 +76,7 @@ function App() {
               hideTooltip={true}
               heatmapVersion={'p'} />
           </div>
+          <BubblePlot data={orderedData} width={400} height={400} />
         </div>
         {/* donut chart all the breadown */}
         {/* <PieChart data={data} width={400} height={400} /> */}

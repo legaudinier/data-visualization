@@ -54,8 +54,8 @@ const pCombinedMap = allPData.reduce((accumulator: any, currentItem: any) => {
 }, {});
 
 // Convert the grouped object values back into an array of objects
-const resultB = Object.values(combinedMap);
-const resultP = Object.values(pCombinedMap)
+export const resultB = Object.values(combinedMap);
+export const resultP = Object.values(pCombinedMap)
 
 // Combine both resultB and resultP based on their similar date values
 export const combinedResults = Object.values(

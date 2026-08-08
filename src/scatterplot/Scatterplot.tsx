@@ -6,7 +6,6 @@ import { ScatterplotTooltip } from '../tooltips/ScatterplotTooltip'
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { bColor, pColor } from '../dataTools'
 
-
 const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
 type DataPoint = {
     date: number;
