@@ -1,44 +1,35 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
-import {resultB, bColor } from "../dataTools";
+import { resultB, bColor } from "../dataTools";
 
-
-const MARGIN = { top: 30, right: 30, bottom: 80, left: 100 };
-const BUBBLE_MIN_SIZE = 4;
-const BUBBLE_MAX_SIZE = 40;
-
-export const data = resultB
-// type DataPoint = {
-//     date: number;
-//     totals: number;
-//     event: string;
-// };
+const MARGIN = { top: 30, right: 30, bottom: 80, left: 100 }
 
 type BubblePlotProps = {
     width: number;
     height: number;
-    // data: DataPoint[] | any; 
+    hideData: boolean
 };
 
-export const BubblePlot = ({ width, height }: BubblePlotProps) => {
-    // Layout. The div size is set by the given props.
-    // The bounds (=area inside the axis) is calculated by substracting the margins
+export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
+
+    const BUBBLE_MIN_SIZE = hideData ? 5 : 10;
+    const BUBBLE_MAX_SIZE = hideData ? 10 : 80;
     const axesRef = useRef(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    console.log('resultB', resultB)
+    const data = resultB
 
     // Scales
     const yScale = useMemo(() => {
-        const [min, max] = d3.extent(data.map((d: any) => d.totals)) as [
+        const [min, max] = d3.extent(data.map((d: any) => d.totals / 60)) as [
             number,
             number
         ];
         return d3.scaleLinear().domain([min, max]).range([boundsHeight, 0]).nice();
     }, [data, height]);
 
-    
+
     const xScale = useMemo(() => {
         const [min, max] = d3.extent(data.map((d: any) => d.date)) as [
             number,
@@ -48,7 +39,7 @@ export const BubblePlot = ({ width, height }: BubblePlotProps) => {
     }, [data, width]);
 
     const sizeScale = useMemo(() => {
-        const [min, max] = d3.extent(data.map((d: any) => d.totals)) as [number, number];
+        const [min, max] = d3.extent(data.map((d: any) => d.totals / 60)) as [number, number];
         return d3
             .scaleSqrt()
             .domain([min, max])
@@ -92,11 +83,11 @@ export const BubblePlot = ({ width, height }: BubblePlotProps) => {
             return (
                 <circle
                     key={i}
-                    r={sizeScale(d.totals)}
+                    r={sizeScale(d.totals / 60)}
                     cx={xScale(d.date)}
-                    cy={yScale(d.totals)}
+                    cy={yScale(d.totals / 60)}
                     opacity={1}
-                    stroke={'gray'}
+                    stroke={bColor}
                     fill={bColor}
                     fillOpacity={0.4}
                     strokeWidth={1}

@@ -22,7 +22,6 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // To Do
-  // add a bubble chart on the per day for the size
   // donut charts for the totals in the top
   // legends in the charts
   // tooltips working on all charts
@@ -76,7 +75,9 @@ function App() {
               hideTooltip={true}
               heatmapVersion={'p'} />
           </div>
-          <BubblePlot data={orderedData} width={400} height={400} />
+          <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }} className="svgContainer">
+            <BubblePlot width={400} height={400} hideData={true} />
+          </div>
         </div>
         {/* donut chart all the breadown */}
         {/* <PieChart data={data} width={400} height={400} /> */}
@@ -97,6 +98,7 @@ function App() {
             heatmapVersion={'b'} />}
           {active === 'pHeatmap' && <Heatmap width={1000} height={800} hideTooltip={false}
             heatmapVersion={'p'} />}
+          {active === 'bubble' && <BubblePlot width={10000} height={800} hideData={false} />}
         </Modal>
       </div>
     </>
