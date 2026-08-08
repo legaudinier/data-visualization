@@ -76,7 +76,7 @@ function App() {
               heatmapVersion={'p'} />
           </div>
           <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }} className="svgContainer">
-            <BubblePlot width={400} height={400} hideData={true} />
+            <BubblePlot width={375} height={300} hideData={true} />
           </div>
         </div>
         {/* donut chart all the breadown */}
@@ -88,7 +88,8 @@ function App() {
             : active === 'p' ? 'Daily Line Plot'
               : active === 'totals' ? 'Bar Chart Totals'
                 : active === 'bHeatmap' ? 'HeatMap - B Data'
-                  : 'HeatMap - P Data'
+                  : active === 'bubble' ? 'Bubble Plot'
+                    : 'HeatMap - P Data'
           }
         >
           {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={800} circleSize={10} hideToolTip={false} />}

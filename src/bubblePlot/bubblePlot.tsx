@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
 import { resultB, bColor } from "../dataTools";
 
-const MARGIN = { top: 30, right: 30, bottom: 80, left: 100 }
+const MARGIN = { top: 30, right: 0, bottom: 50, left: 100 }
 
 type BubblePlotProps = {
     width: number;
@@ -12,8 +12,8 @@ type BubblePlotProps = {
 
 export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
 
-    const BUBBLE_MIN_SIZE = hideData ? 5 : 10;
-    const BUBBLE_MAX_SIZE = hideData ? 10 : 80;
+    const BUBBLE_MIN_SIZE = hideData ? 5 : 1;
+    const BUBBLE_MAX_SIZE = hideData ? 10 : 50;
     const axesRef = useRef(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -35,7 +35,7 @@ export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
             number,
             number
         ];
-        return d3.scaleLinear().domain([0, max]).range([0, boundsWidth]).nice();
+        return d3.scaleLinear().domain([min, max]).range([0, boundsWidth]).nice();
     }, [data, width]);
 
     const sizeScale = useMemo(() => {
@@ -51,30 +51,18 @@ export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
         const svgElement = d3.select(axesRef.current);
         svgElement.selectAll("*").remove();
 
+        // add more ticks here
         const xAxisGenerator = d3.axisBottom(xScale);
         svgElement
             .append("g")
             .attr("transform", "translate(0," + (boundsHeight + 20) + ")")
             .call(xAxisGenerator);
-        svgElement
-            .append("text")
-            .attr("font-size", 12)
-            .attr("text-anchor", "end")
-            .attr("x", boundsWidth)
-            .attr("y", boundsHeight + 60)
 
         const yAxisGenerator = d3.axisLeft(yScale);
         svgElement
             .append("g")
             .attr("transform", "translate(" + -20 + ",0)")
             .call(yAxisGenerator);
-        svgElement
-            .append("text")
-            .attr("font-size", 12)
-            .attr("text-anchor", "end")
-            .attr("x", 0)
-            .attr("y", -60)
-            .attr("transform", "rotate(-90)");
     }, [xScale, yScale, boundsHeight, boundsWidth]);
 
     // Build the shapes
