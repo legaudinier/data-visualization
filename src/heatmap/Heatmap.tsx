@@ -75,7 +75,7 @@ export const Heatmap = ({ width, height, hideTooltip, heatmapVersion }: HeatmapP
                 fill={`${(colorScale(d.value))}`}
                 rx={0}
                 stroke={'white'}
-                onMouseEnter={(e) => {
+                onMouseEnter={() => {
                     setHoveredCell({
                         x: "group " + d.x,
                         y: "group " + d.y,
