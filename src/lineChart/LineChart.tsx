@@ -91,6 +91,8 @@ export const LineChart = ({
     // Build the circles
     const allCircles = combinedResults.map((item: any, i: number) => {
 
+        console.log('HOVERED', hovered)
+
         return (
             <g key={`b-${i}`}>
                 <circle
@@ -100,10 +102,10 @@ export const LineChart = ({
                     fill={bColor}
                     stroke={bColor}
                     opacity={'0.8'}
-                    onMouseEnter={() =>
+                    onMouseEnter={(e) =>
                         setHovered({
-                            xPos: xScale(item.date),
-                            yPos: yScale(item.totals / 60),
+                            xPos: e.currentTarget.getBoundingClientRect().x,
+                            yPos: e.currentTarget.getBoundingClientRect().y,
                             name: item.event,
                             totals: (item.totals / 60),
                             date: item.date,
@@ -180,6 +182,7 @@ export const LineChart = ({
                 }}
             >
                 {!hideToolTip && <LineChartTooltip interactionData={hovered} />}
+
             </div>
         </div>
     );
