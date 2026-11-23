@@ -18,7 +18,7 @@ export const LineChartTooltip = ({ interactionData }: TooltipProps) => {
     if (!interactionData) {
         return null;
     }
-
+    
     return (
         <div
             className={styles.tooltip}

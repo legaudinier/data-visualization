@@ -90,9 +90,6 @@ export const LineChart = ({
 
     // Build the circles
     const allCircles = combinedResults.map((item: any, i: number) => {
-
-        console.log('HOVERED', hovered)
-
         return (
             <g key={`b-${i}`}>
                 <circle
@@ -182,7 +179,6 @@ export const LineChart = ({
                 }}
             >
                 {!hideToolTip && <LineChartTooltip interactionData={hovered} />}
-
             </div>
         </div>
     );
