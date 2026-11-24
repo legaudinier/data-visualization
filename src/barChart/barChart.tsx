@@ -6,19 +6,20 @@ const MARGIN = { top: 30, right: 30, bottom: 30, left: 50 };
 type BarplotProps = {
     width: number;
     height: number;
-    hideData: boolean
-};
+    hideData: boolean;
+    dataToggle: string;
+}
 
 // TO DO - Add a legend
 
-export const BarChart = ({ width, height, hideData }: BarplotProps) => {
+export const BarChart = ({ width, height, hideData, dataToggle }: BarplotProps) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
     const BAR_PADDING = hideData ? .01 : .3;
 
     // Convert the grouped object values back into an array of objects
-    const resultB = Object.values(combinedMap);
+    const resultB = dataToggle === "M" ? Object.values(combinedMap) : Object.values([]);
 
     // Because there are all dates for B events, we can just use this as our grouping
     const dateGroups = resultB.map((d: any) => d.date);

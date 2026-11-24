@@ -112,6 +112,7 @@ function App() {
           <div onClick={() => { setActive('totals'); setIsModalOpen(true) }}
             className="svgContainer">
             <BarChart
+              dataToggle={pressedM ? 'M' : ''}
               width={375}
               height={300}
               hideData={true} />
@@ -163,6 +164,7 @@ function App() {
               hideToolTip={false} />}
           {active === 'totals' &&
             <BarChart
+              dataToggle={pressedM ? 'M' : ''}
               width={20000}
               height={800}
               hideData={false} />}
