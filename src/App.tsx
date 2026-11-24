@@ -12,7 +12,9 @@ import {
   allTotalsArray,
   bColor,
   pColor,
-  allColor
+  allColor,
+  MODAL_TITLES,
+  type ChartType
 } from './dataTools'
 import { Modal } from './modal'
 import './App.css'
@@ -84,13 +86,7 @@ function App() {
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title={active === 'scatterplot' ? 'Daily Scatterplot'
-            : active === 'p' ? 'Daily Line Plot'
-              : active === 'totals' ? 'Bar Chart Totals'
-                : active === 'bHeatmap' ? 'HeatMap - B Data'
-                  : active === 'bubble' ? 'Bubble Plot'
-                    : 'HeatMap - P Data'
-          }
+          title={MODAL_TITLES[active as ChartType] ?? 'HeatMap - P Data'}
         >
           {active === 'scatterplot' && <Scatterplot data={orderedData} width={20000} height={800} circleSize={10} hideToolTip={false} />}
           {active === 'p' && <LineChart data={orderedData} width={8000} height={800} circleSize={8} hideToolTip={false} />}

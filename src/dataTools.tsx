@@ -1,5 +1,16 @@
 import { orderedData } from "./orderedData";
 
+export type ChartType = 'scatterplot' | 'p' | 'totals' | 'bHeatmap' | 'bubble' | 'pHeatmap';
+
+export const MODAL_TITLES: Record<ChartType, string> = {
+  scatterplot: 'Daily Scatterplot',
+  p: 'Daily Line Plot',
+  totals: 'Bar Chart Totals',
+  bHeatmap: 'HeatMap - B Data',
+  bubble: 'Bubble Plot',
+  pHeatmap: 'HeatMap - P Data',
+};
+
 export const bColor = '#672be0'
 export const pColor = '#52b1e8'
 export const allColor = '#0b7028'
