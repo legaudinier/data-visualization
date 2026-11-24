@@ -9,7 +9,7 @@
     margin-bottom: 10px;
 }
 
-button:active,
+/* button:active,
 button:hover,
 .activeButton {
     background-color: rgb(105, 74, 189);
@@ -19,7 +19,7 @@ button:hover,
     padding: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-}
+} */
 
 .svgContainer:hover {
     cursor: 'pointer';

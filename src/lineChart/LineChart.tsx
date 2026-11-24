@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
-import { type OrderedDataType } from '../orderedData';
+import { emptyData } from '../orderedData';
 import { bColor, pColor, combinedResults } from '../dataTools'
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
@@ -10,7 +10,7 @@ const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 type LineChart = {
     width: number;
     height: number;
-    data?: OrderedDataType[];
+    dataToggle: string;
     hideToolTip: boolean
     circleSize: number
 };
@@ -19,7 +19,8 @@ export const LineChart = ({
     width,
     height,
     circleSize,
-    hideToolTip
+    hideToolTip,
+    dataToggle
 }: LineChart) => {
     // bounds = area inside the graph axis = calculated by substracting the margins
     const axesRef = useRef(null);
@@ -27,6 +28,16 @@ export const LineChart = ({
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
     const dateTicks: any = [] // fix this any
     const [hovered, setHovered] = useState<InteractionData | null>(null);
+    let data;
+
+    // if data is not M or H or both, then set the data as empty data
+
+    if (dataToggle !== 'M') {
+        data = emptyData;
+    }
+    else {
+        data = combinedResults;
+    }
 
     if (hideToolTip) {
 
@@ -41,14 +52,14 @@ export const LineChart = ({
     }
 
     // Y axis
-    const [, max] = d3.extent(combinedResults, (d: any) => (d.totals / 60));
+    const [, max] = d3.extent(data, (d: any) => (d.totals / 60));
     const yScale = d3
         .scaleLinear()
         .domain([0, max || 0])
         .range([boundsHeight, 0]);
 
     // X axis
-    const [, xMax] = d3.extent(combinedResults, (d: any) => d.date);
+    const [, xMax] = d3.extent(data, (d: any) => d.date);
     const xScale = d3
         .scaleLinear()
         .domain([0, xMax || 0])
@@ -73,7 +84,7 @@ export const LineChart = ({
         .line<any>()
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.totals / 60));
-    const linePath = lineBuilder(combinedResults);
+    const linePath = lineBuilder(data);
     if (!linePath) {
         return null;
     }
@@ -83,13 +94,13 @@ export const LineChart = ({
         .line<any>()
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.pTotals / 60));
-    const pLinePath = pLineBuilder(combinedResults);
+    const pLinePath = pLineBuilder(data);
     if (!pLinePath) {
         return null;
     }
 
     // Build the circles
-    const allCircles = combinedResults.map((item: any, i: number) => {
+    const allCircles = data.map((item: any, i: number) => {
         return (
             <g key={`b-${i}`}>
                 <circle

@@ -7,7 +7,16 @@ export type OrderedDataType = {
 
 //totals is mins
 
-export const orderedData: OrderedDataType[] = [
+export const emptyData: OrderedDataType[] = [
+    {
+        "date": 0,
+        "time": "",
+        "event": "",
+        "totals": 0
+    },
+]
+
+export const orderedDataM: OrderedDataType[] = [
     {
         "date": 25,
         "time": "23:34:00",

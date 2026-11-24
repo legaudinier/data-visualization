@@ -5,28 +5,31 @@ import { useState } from "react";
 import { ScatterplotTooltip } from '../tooltips/ScatterplotTooltip'
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { bColor, pColor } from '../dataTools'
+import { orderedDataM, emptyData } from "../orderedData";
 
 const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
-type DataPoint = {
-    date: number;
-    time: any;
-    totals: number;
-    event: string;
-};
 
 type ScatterplotProps = {
     width: number;
     height: number;
-    data: DataPoint[];
+    dataToggle: string;
     circleSize: number;
     hideToolTip: boolean;
 };
 
-export const Scatterplot = ({ width, height, data, circleSize, hideToolTip }: ScatterplotProps) => {
+export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle }: ScatterplotProps) => {
     const boundsWidth: any = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const [hovered, setHovered] = useState<InteractionData | null>(null);
+    let data;
+
+    if (dataToggle !== 'M') {
+        data = emptyData;
+    }
+    else {
+        data = orderedDataM;
+    }
 
     const minDate = new Date(data[0].date)
     const maxDate = new Date(data[data.length - 1].date)
