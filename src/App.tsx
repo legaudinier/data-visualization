@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { orderedDataM, emptyData } from "./orderedData";
 import { Scatterplot } from "./scatterplot/Scatterplot";
 import { LineChart } from './lineChart/LineChart';
 import { BarChart } from "./barChart/barChart";
@@ -120,6 +119,7 @@ function App() {
           <div onClick={() => { setActive('bHeatmap'); setIsModalOpen(true) }}
             className="svgContainer">
             <Heatmap
+              dataToggle={pressedM ? 'M' : ''}
               width={375}
               height={300}
               hideTooltip={true}
@@ -128,6 +128,7 @@ function App() {
           <div onClick={() => { setActive('pHeatmap'); setIsModalOpen(true) }}
             className="svgContainer">
             <Heatmap
+              dataToggle={pressedM ? 'M' : ''}
               width={375}
               height={300}
               hideTooltip={true}
@@ -136,6 +137,7 @@ function App() {
           <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }}
             className="svgContainer">
             <BubblePlot
+              dataToggle={pressedM ? 'M' : ''}
               width={375}
               height={300}
               hideData={true} />
@@ -173,17 +175,20 @@ function App() {
               width={1000}
               height={800}
               hideTooltip={false}
+              dataToggle={pressedM ? 'M' : ''}
               heatmapVersion={'b'} />}
           {active === 'pHeatmap' &&
             <Heatmap
               width={1000}
               height={800}
               hideTooltip={false}
+              dataToggle={pressedM ? 'M' : ''}
               heatmapVersion={'p'} />}
           {active === 'bubble' &&
             <BubblePlot
               width={10000}
               height={800}
+              dataToggle={pressedM ? 'M' : ''}
               hideData={false} />}
         </Modal>
       </div>

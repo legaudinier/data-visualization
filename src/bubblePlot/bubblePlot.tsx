@@ -7,10 +7,11 @@ const MARGIN = { top: 30, right: 0, bottom: 50, left: 100 }
 type BubblePlotProps = {
     width: number;
     height: number;
-    hideData: boolean
+    hideData: boolean;
+    dataToggle: string;
 };
 
-export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
+export const BubblePlot = ({ width, height, hideData, dataToggle }: BubblePlotProps) => {
 
     const BUBBLE_MIN_SIZE = hideData ? 5 : 1;
     const BUBBLE_MAX_SIZE = hideData ? 10 : 50;
@@ -18,7 +19,7 @@ export const BubblePlot = ({ width, height, hideData }: BubblePlotProps) => {
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    const data = resultB
+    const data = dataToggle === 'M' ? resultB : []
 
     // Scales
     const yScale = useMemo(() => {
