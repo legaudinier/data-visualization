@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ScatterplotTooltip } from '../tooltips/ScatterplotTooltip'
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { bColor, pColor } from '../dataTools'
-import { orderedDataM, emptyData } from "../orderedData";
+import { orderedDataM, emptyData, orderedDataH } from "../orderedData";
 
 const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
 
@@ -18,22 +18,19 @@ type ScatterplotProps = {
     hideToolTip: boolean;
 };
 
-export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggleM }: ScatterplotProps) => {
+export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggleM, dataToggleH }: ScatterplotProps) => {
     const boundsWidth: any = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const [hovered, setHovered] = useState<InteractionData | null>(null);
-    let data;
+    const dataM = dataToggleM === 'M' ? orderedDataM : emptyData;
+    const dataH = dataToggleH === 'H' ? orderedDataH : emptyData;
 
-    if (dataToggleM !== 'M') {
-        data = emptyData;
-    }
-    else {
-        data = orderedDataM;
-    }
+    const min = Math.min(dataM[0].date, dataH[0].date)
+    const max = Math.max(dataM[dataM.length - 1].date, dataH[dataH.length - 1].date)
 
-    const minDate = new Date(data[0].date)
-    const maxDate = new Date(data[data.length - 1].date)
+    const minDate = new Date(min)
+    const maxDate = new Date(max)
 
     // Scales
     const yScale = d3.scaleLinear().domain([0, 24]).range([boundsHeight, 0]);
@@ -41,14 +38,14 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
         .scaleLinear<Date>()
         .domain([minDate, maxDate])
         .range([0, boundsWidth]);
-    const allGroups = data.map((d) => String(d.event));
+    const allGroups = dataM.map((d) => String(d.event));
     const colorScale = d3
         .scaleOrdinal<string>()
         .domain(allGroups)
         .range([pColor, bColor]);
 
     // Build the shapes
-    const allShapes = data.map((d, i) => {
+    const allShapes = dataM.map((d, i) => {
         return (
             // if its hovered, then change the color of the bubble
             <circle
