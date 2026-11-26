@@ -12,19 +12,20 @@ const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
 type ScatterplotProps = {
     width: number;
     height: number;
-    dataToggle: string;
+    dataToggleM: string;
+    dataToggleH: string;
     circleSize: number;
     hideToolTip: boolean;
 };
 
-export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle }: ScatterplotProps) => {
+export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggleM }: ScatterplotProps) => {
     const boundsWidth: any = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const [hovered, setHovered] = useState<InteractionData | null>(null);
     let data;
 
-    if (dataToggle !== 'M') {
+    if (dataToggleM !== 'M') {
         data = emptyData;
     }
     else {

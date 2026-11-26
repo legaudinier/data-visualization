@@ -93,7 +93,8 @@ function App() {
           {/* Smaller charts to click to maximize up */}
           <div onClick={() => { setActive('scatterplot'); setIsModalOpen(true) }} className="svgContainer">
             <Scatterplot
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM ? 'M' : ''}
+              dataToggleH={pressedH ? 'H' : ''}
               width={375}
               height={300}
               circleSize={1}
@@ -153,7 +154,8 @@ function App() {
           {active === 'scatterplot' &&
             <Scatterplot
               width={20000}
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM ? 'M' : ''}
+              dataToggleH={pressedM ? 'H' : ''}
               height={800}
               circleSize={10}
               hideToolTip={false} />}
