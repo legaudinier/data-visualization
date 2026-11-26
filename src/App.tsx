@@ -34,8 +34,6 @@ function App() {
     setPressedH(nextState);
   };
 
-  // need to "get" the data based on the button toggle click
-
   // To Do
   // donut charts for the totals in the top
   // legends in the charts
@@ -155,7 +153,7 @@ function App() {
             <Scatterplot
               width={20000}
               dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedM ? 'H' : ''}
+              dataToggleH={pressedH ? 'H' : ''}
               height={800}
               circleSize={10}
               hideToolTip={false} />}

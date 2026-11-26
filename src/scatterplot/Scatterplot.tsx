@@ -4,7 +4,7 @@ import { AxisBottom } from "./AxisBottom";
 import { useState } from "react";
 import { ScatterplotTooltip } from '../tooltips/ScatterplotTooltip'
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
-import { bColor, pColor } from '../dataTools'
+import { bColor, pColor, bColorH, pColorH } from '../dataTools'
 import { orderedDataM, emptyData, orderedDataH } from "../orderedData";
 
 const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
@@ -44,8 +44,14 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
         .domain(allGroups)
         .range([pColor, bColor]);
 
+    const allGroupsH = dataH.map((d) => String(d.event));
+    const colorScaleH = d3
+        .scaleOrdinal<string>()
+        .domain(allGroupsH)
+        .range([pColorH, bColorH]);
+
     // Build the shapes
-    const allShapes = dataM.map((d, i) => {
+    const allShapesM = dataM.map((d, i) => {
         return (
             // if its hovered, then change the color of the bubble
             <circle
@@ -55,6 +61,32 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
                 cy={yScale(Number(d.time.split(':')[0]) + Number(d.time.split(':')[1] / 60))}
                 stroke={colorScale(d.event)}
                 fill={colorScale(d.event)}
+                fillOpacity={0.7}
+                onMouseEnter={() =>
+                    setHovered({
+                        xPos: xScale(d.date),
+                        yPos: yScale(Number(d.time.split(':')[0]) + Number(d.time.split(':')[1] / 60)),
+                        name: d.event,
+                        totals: d.totals,
+                        date: d.date,
+                        time: d.time
+                    })
+                }
+                onMouseLeave={() => setHovered(null)}
+            />
+        );
+    });
+
+    const allShapesH = dataH.map((d, i) => {
+        return (
+            // if its hovered, then change the color of the bubble
+            <circle
+                key={i}
+                r={circleSize}
+                cx={xScale(d.date)}
+                cy={yScale(Number(d.time.split(':')[0]) + Number(d.time.split(':')[1] / 60))}
+                stroke={colorScaleH(d.event)}
+                fill={colorScaleH(d.event)}
                 fillOpacity={0.7}
                 onMouseEnter={() =>
                     setHovered({
@@ -92,7 +124,8 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
                     </g>
 
                     {/* Circles */}
-                    {allShapes}
+                    {allShapesM}
+                    {allShapesH}
                 </g>
             </svg>
 

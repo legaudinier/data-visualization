@@ -13,6 +13,8 @@ export const MODAL_TITLES: Record<ChartType, string> = {
 
 export const bColor = '#672be0'
 export const pColor = '#52b1e8'
+export const bColorH = '#fda532'
+export const pColorH = '#e9f903'
 export const allColor = '#0b7028'
 
 export const allBData: any = orderedDataM.filter(x => x?.event === 'B');
