@@ -8,9 +8,13 @@ import { BubblePlot } from './bubblePlot/bubblePlot';
 import {
   allBData,
   allPData,
+  allBDataH,
+  allPDataH,
   allTotalsArray,
   bColor,
+  bColorH,
   pColor,
+  pColorH,
   allColor,
   MODAL_TITLES,
   type ChartType
@@ -35,6 +39,8 @@ function App() {
   };
 
   // To Do
+  // Update H data on all charts
+  // Update H data on the top totals
   // donut charts for the totals in the top
   // legends in the charts
   // tooltips working on all charts
@@ -75,12 +81,38 @@ function App() {
                 </button>
               </div>
             </div>
-            <div style={{ fontWeight: 'bold' }}>Events: <span style={{ color: allColor }}>All ({allBData.length + allPData.length})</span> |
-              <span style={{ color: bColor }}> B ({allBData.length}) </span> | <span style={{ color: pColor }}> P ({allPData.length}) </span></div>
-            <div style={{ fontWeight: 'bold' }}>Times: <span style={{ color: allColor }}>All ({(((allTotalsArray[0].totals + allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)} days) </span>
+            <div style={{ fontWeight: 'bold' }}>
+              Events: <span style={{ color: allColor }}>
+                All ({allBData.length + allPData.length + allBDataH.length + allPDataH.length})
+              </span> |
+              <span style={{ color: bColor }}>
+                &nbsp; B - M ({allBData.length})
+              </span>
+              <span style={{ color: bColorH }}>
+                &nbsp; B - H ({allBDataH.length})
+              </span> |
+              <span style={{ color: pColor }}>
+                &nbsp; P - M ({allPData.length})
+              </span>
+              <span style={{ color: pColorH }}>
+                &nbsp; P - H ({allPDataH.length})
+              </span>
+            </div>
+            <div style={{ fontWeight: 'bold' }}>
+              Times:
+              <span style={{ color: allColor }}>
+                All ({(((allTotalsArray[0].totals + allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)} days)
+              </span>
               | <span style={{ color: bColor }}>B ({(((allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)} days) </span>
-              | <span style={{ color: pColor }}>P ({(((allTotalsArray[0].totals) / 60) / 60 / 24).toFixed(2)} days)</span></div>
-            <div style={{ fontWeight: 'bold' }}>Amount: <span style={{ color: pColor }}>P oz</span></div>
+              | <span style={{ color: pColor }}>
+                P ({(((allTotalsArray[0].totals) / 60) / 60 / 24).toFixed(2)} days)
+              </span>
+            </div>
+            <div style={{ fontWeight: 'bold' }}>
+              Amount: <span style={{ color: pColor }}>P oz
+
+              </span>
+            </div>
           </div>
         </div>
         <div style={{
