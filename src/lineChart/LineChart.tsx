@@ -41,8 +41,6 @@ export const LineChart = ({
     const data = dataToggleM === 'M' ? combinedResults : emptyData;
     const dataH = dataToggleH === 'H' ? combinedResultsH : emptyData;
 
-    console.log('dataH', dataH)
-
     if (hideToolTip) {
         for (let i = 0; i <= 700; i += 100) {
             dateTicks.push(i);
@@ -177,25 +175,26 @@ export const LineChart = ({
     const allCirclesH = dataH.map((item: any, i: number) => {
         return (
             <g key={`b-${i}`}>
-                <circle
-                    cx={xScale(item.date)}
-                    cy={yScale(item.totals / 60)}
-                    r={circleSize}
-                    fill={bColorH}
-                    stroke={bColorH}
-                    opacity={'0.8'}
-                    onMouseEnter={(e) =>
-                        setHovered({
-                            xPos: e.currentTarget.getBoundingClientRect().x,
-                            yPos: e.currentTarget.getBoundingClientRect().y,
-                            name: item.event,
-                            totals: (item.totals / 60),
-                            date: item.date,
-                            time: item.time
-                        })
-                    }
-                    onMouseLeave={() => setHovered(null)}
-                />
+                {item.totals !== undefined &&
+                    <circle
+                        cx={xScale(item.date)}
+                        cy={yScale(item.totals / 60)}
+                        r={circleSize}
+                        fill={bColorH}
+                        stroke={bColorH}
+                        opacity={'0.8'}
+                        onMouseEnter={(e) =>
+                            setHovered({
+                                xPos: e.currentTarget.getBoundingClientRect().x,
+                                yPos: e.currentTarget.getBoundingClientRect().y,
+                                name: item.event,
+                                totals: (item.totals / 60),
+                                date: item.date,
+                                time: item.time
+                            })
+                        }
+                        onMouseLeave={() => setHovered(null)}
+                    />}
                 {item.pTotals !== undefined &&
                     <circle
                         cx={xScale(item.date)}
