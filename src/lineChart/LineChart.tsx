@@ -41,6 +41,8 @@ export const LineChart = ({
     const data = dataToggleM === 'M' ? combinedResults : emptyData;
     const dataH = dataToggleH === 'H' ? combinedResultsH : emptyData;
 
+    console.log('dataH', dataH)
+
     if (hideToolTip) {
         for (let i = 0; i <= 700; i += 100) {
             dateTicks.push(i);
@@ -94,6 +96,7 @@ export const LineChart = ({
     // Build the bLine - H data
     const lineBuilderH = d3
         .line<any>()
+        .defined((d) => d.totals !== undefined && d.totals !== null)
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.totals / 60));
     const linePathH = lineBuilderH(dataH);
@@ -104,6 +107,7 @@ export const LineChart = ({
     // Build the pLine - M data
     const pLineBuilder = d3
         .line<any>()
+        .defined((d) => d.pTotals !== undefined && d.pTotals !== null)
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.pTotals / 60));
     const pLinePath = pLineBuilder(data);
@@ -114,6 +118,7 @@ export const LineChart = ({
     // Build the pLine - H data
     const pLineBuilderH = d3
         .line<any>()
+        .defined((d) => d.pTotals !== undefined && d.pTotals !== null)
         .x((d) => xScale(d.date))
         .y((d) => yScale(d.pTotals / 60));
     const pLinePathH = pLineBuilderH(dataH);
@@ -121,7 +126,7 @@ export const LineChart = ({
         return null;
     }
 
-    // Build the circles
+    // Build the circles - M data
     const allCircles = data.map((item: any, i: number) => {
         return (
             <g key={`b-${i}`}>
@@ -168,7 +173,7 @@ export const LineChart = ({
         );
     });
 
-    // Build the circles
+    // Build the circles - H data
     const allCirclesH = dataH.map((item: any, i: number) => {
         return (
             <g key={`b-${i}`}>
