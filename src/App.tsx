@@ -123,8 +123,8 @@ function App() {
           {/* Smaller charts to click to maximize up */}
           <div onClick={() => { setActive('scatterplot'); setIsModalOpen(true) }} className="svgContainer">
             <Scatterplot
-              dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedH ? 'H' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               circleSize={1}
@@ -133,8 +133,8 @@ function App() {
           <div onClick={() => { setActive('p'); setIsModalOpen(true) }}
             className="svgContainer">
             <LineChart
-              dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedH ? 'H' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               circleSize={1}
@@ -185,15 +185,15 @@ function App() {
           {active === 'scatterplot' &&
             <Scatterplot
               width={20000}
-              dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedH ? 'H' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               height={800}
               circleSize={10}
               hideToolTip={false} />}
           {active === 'p' &&
             <LineChart
-              dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedM ? 'H' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={8000}
               height={800}
               circleSize={8}

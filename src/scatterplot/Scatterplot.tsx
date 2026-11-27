@@ -12,8 +12,8 @@ const MARGIN = { top: 60, right: 60, bottom: 60, left: 60 };
 type ScatterplotProps = {
     width: number;
     height: number;
-    dataToggleM: string;
-    dataToggleH: string;
+    dataToggleM: boolean;
+    dataToggleH: boolean;
     circleSize: number;
     hideToolTip: boolean;
 };
@@ -23,8 +23,8 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
     const [hovered, setHovered] = useState<InteractionData | null>(null);
-    const dataM = dataToggleM === 'M' ? orderedDataM : emptyData;
-    const dataH = dataToggleH === 'H' ? orderedDataH : emptyData;
+    const dataM = dataToggleM ? orderedDataM : emptyData;
+    const dataH = dataToggleH ? orderedDataH : emptyData;
 
     const min = Math.min(dataM[0].date, dataH[0].date)
     const max = Math.max(dataM[dataM.length - 1].date, dataH[dataH.length - 1].date)
