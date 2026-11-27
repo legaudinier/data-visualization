@@ -17,8 +17,8 @@ const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 type LineChart = {
     width: number;
     height: number;
-    dataToggleM: string;
-    dataToggleH: string;
+    dataToggleM: boolean;
+    dataToggleH: boolean;
     hideToolTip: boolean
     circleSize: number
 };
