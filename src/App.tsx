@@ -133,7 +133,8 @@ function App() {
           <div onClick={() => { setActive('p'); setIsModalOpen(true) }}
             className="svgContainer">
             <LineChart
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM ? 'M' : ''}
+              dataToggleH={pressedM ? 'H' : ''}
               width={375}
               height={300}
               circleSize={1}
@@ -191,7 +192,8 @@ function App() {
               hideToolTip={false} />}
           {active === 'p' &&
             <LineChart
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM ? 'M' : ''}
+              dataToggleH={pressedM ? 'H' : ''}
               width={8000}
               height={800}
               circleSize={8}
