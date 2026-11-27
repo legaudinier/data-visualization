@@ -80,144 +80,70 @@ export const LineChart = ({
         svgElement.append('g').call(yAxisGenerator);
     }, [xScale, yScale, boundsHeight]);
 
-    // Build the bLine - M data
-    const lineBuilder = d3
-        .line<any>()
-        .x((d) => xScale(d.date))
-        .y((d) => yScale(d.totals / 60));
-
+    const lineBuilderMain = (totalsKey: string) => {
+        return d3
+            .line<any>()
+            .defined((d) => d[totalsKey] !== undefined && d[totalsKey] !== null)
+            .x((d) => xScale(d.date))
+            .y((d) => yScale(d[totalsKey] / 60));
+    }
+    // M Data //
+    const lineBuilder = lineBuilderMain('totals');
     const linePath = lineBuilder(data);
     if (!linePath) {
         return null;
     }
 
-    // Build the bLine - H data
-    const lineBuilderH = d3
-        .line<any>()
-        .defined((d) => d.totals !== undefined && d.totals !== null)
-        .x((d) => xScale(d.date))
-        .y((d) => yScale(d.totals / 60));
-    const linePathH = lineBuilderH(dataH);
-    if (!linePathH) {
-        return null;
-    }
-
-    // Build the pLine - M data
-    const pLineBuilder = d3
-        .line<any>()
-        .defined((d) => d.pTotals !== undefined && d.pTotals !== null)
-        .x((d) => xScale(d.date))
-        .y((d) => yScale(d.pTotals / 60));
+    const pLineBuilder = lineBuilderMain('pTotals')
     const pLinePath = pLineBuilder(data);
     if (!pLinePath) {
         return null;
     }
 
-    // Build the pLine - H data
-    const pLineBuilderH = d3
-        .line<any>()
-        .defined((d) => d.pTotals !== undefined && d.pTotals !== null)
-        .x((d) => xScale(d.date))
-        .y((d) => yScale(d.pTotals / 60));
+    // H Data //
+    const lineBuilderH = lineBuilderMain('totals')
+    const linePathH = lineBuilderH(dataH);
+    if (!linePathH) {
+        return null;
+    }
+
+    const pLineBuilderH = lineBuilderMain('pTotals')
     const pLinePathH = pLineBuilderH(dataH);
     if (!pLinePathH) {
         return null;
     }
 
-    // Build the circles - M data
-    const allCircles = data.map((item: any, i: number) => {
-        return (
-            <g key={`b-${i}`}>
-                <circle
-                    cx={xScale(item.date)}
-                    cy={yScale(item.totals / 60)}
-                    r={circleSize}
-                    fill={bColor}
-                    stroke={bColor}
-                    opacity={'0.8'}
-                    onMouseEnter={(e) =>
-                        setHovered({
-                            xPos: e.currentTarget.getBoundingClientRect().x,
-                            yPos: e.currentTarget.getBoundingClientRect().y,
-                            name: item.event,
-                            totals: (item.totals / 60),
-                            date: item.date,
-                            time: item.time
-                        })
-                    }
-                    onMouseLeave={() => setHovered(null)}
-                />
-                {item.pTotals !== undefined &&
+    const circleBuilder = (data: any, fillColor: string, totalsKey: string, timeKey: string) => {
+        return data.map((item: any,) => {
+            return (
+                item[totalsKey] !== undefined && (
                     <circle
                         cx={xScale(item.date)}
-                        cy={yScale(item.pTotals / 60)}
+                        cy={yScale(item[totalsKey] / 60)}
                         r={circleSize}
-                        fill={pColor}
-                        stroke={pColor}
-                        opacity={'0.8'}
-                        onMouseEnter={() =>
-                            setHovered({
-                                xPos: xScale(item.date),
-                                yPos: yScale(item.pTotals / 60),
-                                name: item.event,
-                                totals: (item.pTotals / 60),
-                                date: item.date,
-                                time: item.pTime
-                            })
-                        }
-                        onMouseLeave={() => setHovered(null)}
-                    />}
-            </g>
-        );
-    });
-
-    // Build the circles - H data
-    const allCirclesH = dataH.map((item: any, i: number) => {
-        return (
-            <g key={`b-${i}`}>
-                {item.totals !== undefined &&
-                    <circle
-                        cx={xScale(item.date)}
-                        cy={yScale(item.totals / 60)}
-                        r={circleSize}
-                        fill={bColorH}
-                        stroke={bColorH}
+                        fill={fillColor}
+                        stroke={fillColor}
                         opacity={'0.8'}
                         onMouseEnter={(e) =>
                             setHovered({
                                 xPos: e.currentTarget.getBoundingClientRect().x,
                                 yPos: e.currentTarget.getBoundingClientRect().y,
                                 name: item.event,
-                                totals: (item.totals / 60),
+                                totals: (item[totalsKey] / 60),
                                 date: item.date,
-                                time: item.time
+                                time: item[timeKey]
                             })
                         }
                         onMouseLeave={() => setHovered(null)}
-                    />}
-                {item.pTotals !== undefined &&
-                    <circle
-                        cx={xScale(item.date)}
-                        cy={yScale(item.pTotals / 60)}
-                        r={circleSize}
-                        fill={pColorH}
-                        stroke={pColorH}
-                        opacity={'0.8'}
-                        onMouseEnter={() =>
-                            setHovered({
-                                xPos: xScale(item.date),
-                                yPos: yScale(item.pTotals / 60),
-                                name: item.event,
-                                totals: (item.pTotals / 60),
-                                date: item.date,
-                                time: item.pTime
-                            })
-                        }
-                        onMouseLeave={() => setHovered(null)}
-                    />}
-            </g>
-        );
-    });
+                    />)
+            );
+        });
+    }
+
+    const allCirclesBM = circleBuilder(data, bColor, 'totals', 'time')
+    const allCirclesPM = circleBuilder(data, pColor, 'pTotals', 'pTime')
+    const allCirclesBH = circleBuilder(dataH, bColorH, 'totals', 'time')
+    const allCirclesPH = circleBuilder(dataH, pColorH, 'pTotals', 'pTime')
 
     return (
         <div>
@@ -255,8 +181,10 @@ export const LineChart = ({
                         fill="none"
                         strokeWidth={2}
                     />
-                    {allCircles}
-                    {allCirclesH}
+                    {allCirclesBM}
+                    {allCirclesPM}
+                    {allCirclesBH}
+                    {allCirclesPH}
                 </g>
                 <g
                     width={boundsWidth}
