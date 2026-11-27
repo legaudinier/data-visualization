@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import * as d3 from 'd3';
 import type { InteractionData } from '../tooltips/ScatterplotTooltip'
 import { LineChartTooltip } from '../tooltips/LineChartTooltip'
-import { emptyData } from '../orderedData';
 import {
     bColor,
     pColor,
