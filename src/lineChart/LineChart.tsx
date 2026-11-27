@@ -90,28 +90,15 @@ export const LineChart = ({
     // M Data //
     const lineBuilder = lineBuilderMain('totals');
     const linePath = lineBuilder(data);
-    if (!linePath) {
-        return null;
-    }
-
     const pLineBuilder = lineBuilderMain('pTotals')
     const pLinePath = pLineBuilder(data);
-    if (!pLinePath) {
-        return null;
-    }
 
     // H Data //
     const lineBuilderH = lineBuilderMain('totals')
     const linePathH = lineBuilderH(dataH);
-    if (!linePathH) {
-        return null;
-    }
-
     const pLineBuilderH = lineBuilderMain('pTotals')
     const pLinePathH = pLineBuilderH(dataH);
-    if (!pLinePathH) {
-        return null;
-    }
+
 
     const circleBuilder = (data: any, fillColor: string, totalsKey: string, timeKey: string) => {
         return data.map((item: any,) => {
@@ -153,34 +140,38 @@ export const LineChart = ({
                     height={boundsHeight}
                     transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}
                 >
-                    <path
-                        d={linePath}
-                        stroke={bColor}
-                        opacity={'0.7'}
-                        fill="none"
-                        strokeWidth={2}
-                    />
-                    <path
-                        d={pLinePath}
-                        stroke={pColor}
-                        opacity={'0.7'}
-                        fill="none"
-                        strokeWidth={2}
-                    />
-                    <path
-                        d={linePathH}
-                        stroke={bColorH}
-                        opacity={'0.7'}
-                        fill="none"
-                        strokeWidth={2}
-                    />
-                    <path
-                        d={pLinePathH}
-                        stroke={pColorH}
-                        opacity={'0.7'}
-                        fill="none"
-                        strokeWidth={2}
-                    />
+                    {linePath &&
+                        <path
+                            d={linePath}
+                            stroke={bColor}
+                            opacity={'0.7'}
+                            fill="none"
+                            strokeWidth={2}
+                        />}
+                    {pLinePath &&
+                        <path
+                            d={pLinePath}
+                            stroke={pColor}
+                            opacity={'0.7'}
+                            fill="none"
+                            strokeWidth={2}
+                        />}
+                    {linePathH &&
+                        <path
+                            d={linePathH}
+                            stroke={bColorH}
+                            opacity={'0.7'}
+                            fill="none"
+                            strokeWidth={2}
+                        />}
+                    {pLinePathH &&
+                        <path
+                            d={pLinePathH}
+                            stroke={pColorH}
+                            opacity={'0.7'}
+                            fill="none"
+                            strokeWidth={2}
+                        />}
                     {allCirclesBM}
                     {allCirclesPM}
                     {allCirclesBH}

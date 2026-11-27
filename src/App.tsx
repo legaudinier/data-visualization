@@ -134,7 +134,7 @@ function App() {
             className="svgContainer">
             <LineChart
               dataToggleM={pressedM ? 'M' : ''}
-              dataToggleH={pressedM ? 'H' : ''}
+              dataToggleH={pressedH ? 'H' : ''}
               width={375}
               height={300}
               circleSize={1}
