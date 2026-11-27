@@ -71,8 +71,8 @@ function App() {
                 </button>
                 <button style={{
                   width: '50px', height: '50px',
-                  background: pressedH ? bColor : 'white',
-                  color: pressedH ? 'white' : bColor
+                  background: pressedH ? bColorH : 'white',
+                  color: pressedH ? 'white' : bColorH
                 }}
                   type="button"
                   aria-pressed={pressedH}
@@ -169,7 +169,8 @@ function App() {
           <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }}
             className="svgContainer">
             <BubblePlot
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               hideData={true} />
@@ -222,7 +223,8 @@ function App() {
             <BubblePlot
               width={10000}
               height={800}
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
               hideData={false} />}
         </Modal>
       </div>
