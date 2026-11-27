@@ -26,7 +26,7 @@ function App() {
   const [active, setActive] = useState('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [pressedM, setPressedM] = useState(true);
-  const [pressedH, setPressedH] = useState(false);
+  const [pressedH, setPressedH] = useState(true);
 
   const handleClickM = () => {
     const nextState = !pressedM;
@@ -56,13 +56,9 @@ function App() {
         }}>
         <div
           style={{
-            maxWidth: '1120px',
             margin: '0 auto 24px auto',
             padding: '24px 28px',
             backgroundColor: '#ffffff',
-            borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
-            border: '1px solid #e2e8f0',
           }}
         >
           <div
