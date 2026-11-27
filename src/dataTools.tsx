@@ -3,12 +3,12 @@ import { orderedDataM, orderedDataH } from "./orderedData";
 export type ChartType = 'scatterplot' | 'p' | 'totals' | 'bHeatmap' | 'bubble' | 'pHeatmap';
 
 export const MODAL_TITLES: Record<ChartType, string> = {
-  scatterplot: 'Daily Scatterplot',
-  p: 'Daily Line Plot',
-  totals: 'Bar Chart Totals',
-  bHeatmap: 'HeatMap - B Data',
-  bubble: 'Bubble Plot',
-  pHeatmap: 'HeatMap - P Data',
+    scatterplot: 'Daily Scatterplot',
+    p: 'Daily Line Plot',
+    totals: 'Bar Chart Totals',
+    bHeatmap: 'HeatMap - B Data',
+    bubble: 'Bubble Plot',
+    pHeatmap: 'HeatMap - P Data',
 };
 
 // CLEAN UP THIS FILE
@@ -20,44 +20,37 @@ export const bColorH = '#fda532'
 export const pColorH = '#d84832'
 export const allColor = '#0b7028'
 
-export const allBData: any = orderedDataM.filter(x => x?.event === 'B');
-export const allPData: any = orderedDataM.filter(x => x?.event === 'P');
-export const allBDataH: any = orderedDataH.filter(x => x?.event === 'B');
-export const allPDataH: any = orderedDataH.filter(x => x?.event === 'P');
+const filterData = (data: any, eventName: string) => {
+    return data.filter((x: any) => x.event === eventName)
+}
 
-const allTotals = orderedDataM.reduce((accumulator: any, currentItem: any) => {
-    const key = currentItem.event;
+export const allBData = filterData(orderedDataM, 'B');
+export const allPData = filterData(orderedDataM, 'P');
+export const allBDataH = filterData(orderedDataH, 'B');
+export const allPDataH = filterData(orderedDataH, 'P')
 
-    // If the category does not exist in our accumulator, initialize it
-    if (!accumulator[key]) {
-        accumulator[key] = { date: key, totals: 0, event: currentItem.event };
-    }
+const calculateAllTotals = (data: any[]) => {
+    return data.reduce((accumulator: any, currentItem: any) => {
+        const key = currentItem.event;
 
-    // Sum the amount into the existing category group
-    accumulator[key].totals += currentItem.totals;
+        // If the category does not exist in our accumulator, initialize it
+        if (!accumulator[key]) {
+            accumulator[key] = { date: key, totals: 0, event: currentItem.event };
+        }
 
-    return accumulator;
-}, {});
+        // Sum the amount into the existing category group
+        accumulator[key].totals += currentItem.totals;
+
+        return accumulator;
+    }, {});
+};
+
+const allTotals = calculateAllTotals(orderedDataM);
+const allTotalsH = calculateAllTotals(orderedDataH);
 
 export const allTotalsArray: any[] = Object.values(allTotals);
-
-const allTotalsH = orderedDataH.reduce((accumulator: any, currentItem: any) => {
-    const key = currentItem.event;
-
-    // If the category does not exist in our accumulator, initialize it
-    if (!accumulator[key]) {
-        accumulator[key] = { date: key, totals: 0, event: currentItem.event };
-    }
-
-    // Sum the amount into the existing category group
-    accumulator[key].totals += currentItem.totals;
-
-    return accumulator;
-}, {});
-
 export const allTotalsArrayH: any[] = Object.values(allTotalsH);
 
-// Combine all B events and sum their values
 export const combinedMap = allBData.reduce((accumulator: any, currentItem: any) => {
     const key = currentItem.date;
 
