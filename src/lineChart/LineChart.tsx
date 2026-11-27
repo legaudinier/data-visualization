@@ -35,11 +35,12 @@ export const LineChart = ({
     const axesRef = useRef(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
-    const dateTicks: any = [] // fix this any
+    const dateTicks: number[] = [];
     const [hovered, setHovered] = useState<InteractionData | null>(null);
 
     const data = dataToggleM === 'M' ? combinedResults : emptyData;
     const dataH = dataToggleH === 'H' ? combinedResultsH : emptyData;
+    const activeData = [...data, ...dataH];
 
     if (hideToolTip) {
         for (let i = 0; i <= 700; i += 100) {
@@ -53,14 +54,14 @@ export const LineChart = ({
     }
 
     // Y axis
-    const [, max] = d3.extent(data, (d: any) => (d.totals / 60));
+    const [, max] = d3.extent(activeData, (d: any) => (d.totals / 60));
     const yScale = d3
         .scaleLinear()
         .domain([0, max || 0])
         .range([boundsHeight, 0]);
 
     // X axis
-    const [, xMax] = d3.extent(data, (d: any) => d.date);
+    const [, xMax] = d3.extent(activeData, (d: any) => d.date);
     const xScale = d3
         .scaleLinear()
         .domain([0, xMax || 0])
