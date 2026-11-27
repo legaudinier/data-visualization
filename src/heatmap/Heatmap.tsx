@@ -8,7 +8,7 @@ type HeatmapProps = {
     height: number;
     hideTooltip: boolean;
     heatmapVersion: string;
-    dataToggle: string;
+    dataToggleM: boolean;
 };
 
 export type InteractionData = {
@@ -21,12 +21,12 @@ export type InteractionData = {
 
 const MARGIN = { top: 10, right: 50, bottom: 30, left: 50 };
 
-export const Heatmap = ({ width, height, hideTooltip, heatmapVersion, dataToggle }: HeatmapProps) => {
+export const Heatmap = ({ width, height, hideTooltip, heatmapVersion, dataToggleM }: HeatmapProps) => {
     const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-    const data = dataToggle === 'M' ? (heatmapVersion === 'b' ? HeatmapDataB : HeatmapDataP) : []
+    const data = dataToggleM ? (heatmapVersion === 'b' ? HeatmapDataB : HeatmapDataP) : []
     const color = heatmapVersion === 'b' ? bColor : pColor
 
     const allYGroups = useMemo(() => [...new Set(data.map((d) => d.y))], [data]);

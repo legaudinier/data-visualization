@@ -38,8 +38,8 @@ export const LineChart = ({
     const dateTicks: number[] = [];
     const [hovered, setHovered] = useState<InteractionData | null>(null);
 
-    const data = dataToggleM ? combinedResults : emptyData;
-    const dataH = dataToggleH ? combinedResultsH : emptyData;
+    const data = dataToggleM ? combinedResults : [];
+    const dataH = dataToggleH ? combinedResultsH : [];
     const activeData = [...data, ...dataH];
 
     if (hideToolTip) {

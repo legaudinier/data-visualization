@@ -151,7 +151,7 @@ function App() {
           <div onClick={() => { setActive('bHeatmap'); setIsModalOpen(true) }}
             className="svgContainer">
             <Heatmap
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
               width={375}
               height={300}
               hideTooltip={true}
@@ -160,7 +160,7 @@ function App() {
           <div onClick={() => { setActive('pHeatmap'); setIsModalOpen(true) }}
             className="svgContainer">
             <Heatmap
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
               width={375}
               height={300}
               hideTooltip={true}
@@ -210,14 +210,14 @@ function App() {
               width={1000}
               height={800}
               hideTooltip={false}
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
               heatmapVersion={'b'} />}
           {active === 'pHeatmap' &&
             <Heatmap
               width={1000}
               height={800}
               hideTooltip={false}
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggleM={pressedM}
               heatmapVersion={'p'} />}
           {active === 'bubble' &&
             <BubblePlot

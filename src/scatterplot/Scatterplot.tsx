@@ -26,8 +26,8 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
     const dataM = dataToggleM ? orderedDataM : emptyData;
     const dataH = dataToggleH ? orderedDataH : emptyData;
 
-    const min = Math.min(dataM[0].date, dataH[0].date)
-    const max = Math.max(dataM[dataM.length - 1].date, dataH[dataH.length - 1].date)
+    const min = Math.min(dataM[0]?.date, dataH[0]?.date)
+    const max = Math.max(dataM[dataM.length - 1]?.date, dataH[dataH.length - 1]?.date)
 
     const minDate = new Date(min)
     const maxDate = new Date(max)
@@ -48,7 +48,7 @@ export const Scatterplot = ({ width, height, circleSize, hideToolTip, dataToggle
     const colorScaleH = d3
         .scaleOrdinal<string>()
         .domain(allGroupsH)
-        .range([pColorH, bColorH]);
+        .range([bColorH, pColorH]);
 
     // Build the shapes
     const allShapesM = dataM.map((d, i) => {
