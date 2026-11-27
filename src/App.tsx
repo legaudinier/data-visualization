@@ -54,67 +54,203 @@ function App() {
           paddingTop: '20px',
           fontFamily: 'Arial, Helvetica, sans-serif'
         }}>
-        <div style={{ width: '1000px', display: 'flex', flexDirection: 'row' }}>
-          <div style={{ marginLeft: '40px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <h1 style={{ marginTop: '0', marginBottom: '15px' }}>Totals</h1>
-              <div>
-                <button style={{
-                  width: '50px', height: '50px',
-                  background: pressedM ? bColor : 'white',
-                  color: pressedM ? 'white' : bColor
+        <div
+          style={{
+            maxWidth: '1120px',
+            margin: '0 auto 24px auto',
+            padding: '24px 28px',
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+            border: '1px solid #e2e8f0',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingBottom: '20px',
+              marginBottom: '20px',
+              borderBottom: '1px solid #f1f5f9',
+            }}
+          >
+            <div>
+              <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 700, color: '#0f172a' }}>
+                Data Visualization Project
+              </h1>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                aria-pressed={pressedM}
+                onClick={handleClickM}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '10px',
+                  border: `2px solid ${bColor}`,
+                  backgroundColor: pressedM ? bColor : '#ffffff',
+                  color: pressedM ? '#ffffff' : bColor,
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  boxShadow: pressedM ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'none',
                 }}
-                  type="button"
-                  aria-pressed={pressedM}
-                  onClick={handleClickM}>
-                  M
-                </button>
-                <button style={{
-                  width: '50px', height: '50px',
-                  background: pressedH ? bColorH : 'white',
-                  color: pressedH ? 'white' : bColorH
+              >
+                M
+              </button>
+
+              <button
+                type="button"
+                aria-pressed={pressedH}
+                onClick={handleClickH}
+                style={{
+                  padding: '10px 20px',
+                  borderRadius: '10px',
+                  border: `2px solid ${bColorH}`,
+                  backgroundColor: pressedH ? bColorH : '#ffffff',
+                  color: pressedH ? '#ffffff' : bColorH,
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                  boxShadow: pressedH ? '0 2px 8px rgba(0, 0, 0, 0.12)' : 'none',
                 }}
-                  type="button"
-                  aria-pressed={pressedH}
-                  onClick={handleClickH}>
-                  H
-                </button>
+              >
+                H
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Row: 3 Metric Cards */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '16px',
+            }}
+          >
+            {/* Card 1: Events */}
+            <div
+              style={{
+                padding: '16px 20px',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#64748b',
+                  marginBottom: '6px',
+                }}
+              >
+                Total Events
+              </div>
+              <div
+                style={{
+                  fontSize: '28px',
+                  fontWeight: 800,
+                  color: allColor,
+                  marginBottom: '12px',
+                }}
+              >
+                {allBData.length + allPData.length + allBDataH.length + allPDataH.length}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '12px', fontWeight: 600 }}>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${bColor}`, color: bColor }}>
+                  B-M: {allBData.length}
+                </span>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${bColorH}`, color: bColorH }}>
+                  B-H: {allBDataH.length}
+                </span>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${pColor}`, color: pColor }}>
+                  P-M: {allPData.length}
+                </span>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${pColorH}`, color: pColorH }}>
+                  P-H: {allPDataH.length}
+                </span>
               </div>
             </div>
-            <div style={{ fontWeight: 'bold' }}>
-              Events: <span style={{ color: allColor }}>
-                All ({allBData.length + allPData.length + allBDataH.length + allPDataH.length})
-              </span> |
-              <span style={{ color: bColor }}>
-                &nbsp; B - M ({allBData.length})
-              </span>
-              <span style={{ color: bColorH }}>
-                &nbsp; B - H ({allBDataH.length})
-              </span> |
-              <span style={{ color: pColor }}>
-                &nbsp; P - M ({allPData.length})
-              </span>
-              <span style={{ color: pColorH }}>
-                &nbsp; P - H ({allPDataH.length})
-              </span>
-            </div>
-            <div style={{ fontWeight: 'bold' }}>
-              Times:
-              <span style={{ color: allColor }}>
-                All ({(((allTotalsArray[0].totals + allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)} days)
-              </span>
-              | <span style={{ color: bColor }}>B ({(((allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)} days) </span>
-              | <span style={{ color: pColor }}>
-                P ({(((allTotalsArray[0].totals) / 60) / 60 / 24).toFixed(2)} days)
-              </span>
-            </div>
-            <div style={{ fontWeight: 'bold' }}>
-              Amount: <span style={{ color: pColor }}>P oz
 
-              </span>
+            {/* Card 2: Times */}
+            <div
+              style={{
+                padding: '16px 20px',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#64748b',
+                  marginBottom: '6px',
+                }}
+              >
+                Total Duration
+              </div>
+              <div
+                style={{
+                  fontSize: '28px',
+                  fontWeight: 800,
+                  color: allColor,
+                  marginBottom: '12px',
+                }}
+              >
+                {(((allTotalsArray[0].totals + allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)}{' '}
+                <span style={{ fontSize: '15px', fontWeight: 600 }}>days</span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', fontSize: '12px', fontWeight: 600 }}>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${bColor}`, color: bColor }}>
+                  B: {(((allTotalsArray[1].totals) / 60) / 60 / 24).toFixed(2)}d
+                </span>
+                <span style={{ padding: '3px 8px', borderRadius: '6px', backgroundColor: '#ffffff', border: `1px solid ${pColor}`, color: pColor }}>
+                  P: {(((allTotalsArray[0].totals) / 60) / 60 / 24).toFixed(2)}d
+                </span>
+              </div>
+            </div>
+            <div
+              style={{
+                padding: '16px 20px',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#64748b',
+                  marginBottom: '6px',
+                }}
+              >
+                Total Amount
+              </div>
+              <div
+                style={{
+                  fontSize: '28px',
+                  fontWeight: 800,
+                  color: pColor,
+                  marginBottom: '12px',
+                }}
+              >
+                P <span style={{ fontSize: '15px', fontWeight: 600 }}>oz</span>
+              </div>
             </div>
           </div>
         </div>
+
         <div style={{
           display: 'flex',
           flexDirection: 'row',
