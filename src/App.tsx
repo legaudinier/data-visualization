@@ -279,6 +279,15 @@ function App() {
               height={300}
               hideData={true} />
           </div>
+          <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }}
+            className="svgContainer">
+            <BubblePlot
+              dataToggleM={pressedM}
+              dataToggleH={pressedH}
+              width={375}
+              height={300}
+              hideData={true} />
+          </div>
           <div onClick={() => { setActive('bHeatmap'); setIsModalOpen(true) }}
             className="svgContainer">
             <Heatmap
@@ -298,15 +307,6 @@ function App() {
               height={300}
               hideTooltip={true}
               heatmapVersion={'p'} />
-          </div>
-          <div onClick={() => { setActive('bubble'); setIsModalOpen(true) }}
-            className="svgContainer">
-            <BubblePlot
-              dataToggleM={pressedM}
-              dataToggleH={pressedH}
-              width={375}
-              height={300}
-              hideData={true} />
           </div>
         </div>
         {/* donut chart all the breadown */}
