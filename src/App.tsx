@@ -173,8 +173,6 @@ function App() {
                 </span>
               </div>
             </div>
-
-            {/* Card 2: Times */}
             <div
               style={{
                 padding: '16px 20px',
@@ -275,7 +273,7 @@ function App() {
           <div onClick={() => { setActive('totals'); setIsModalOpen(true) }}
             className="svgContainer">
             <BarChart
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggle={pressedM}
               width={375}
               height={300}
               hideData={true} />
@@ -333,7 +331,7 @@ function App() {
               hideToolTip={false} />}
           {active === 'totals' &&
             <BarChart
-              dataToggle={pressedM ? 'M' : ''}
+              dataToggle={pressedM}
               width={20000}
               height={800}
               hideData={false} />}
