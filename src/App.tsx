@@ -274,6 +274,7 @@ function App() {
             className="svgContainer">
             <BarChart
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               hideData={true} />
@@ -318,7 +319,7 @@ function App() {
               width={20000}
               dataToggleM={pressedM}
               dataToggleH={pressedH}
-              height={800}
+              height={500}
               circleSize={10}
               hideToolTip={false} />}
           {active === 'p' &&
@@ -326,33 +327,34 @@ function App() {
               dataToggleM={pressedM}
               dataToggleH={pressedH}
               width={8000}
-              height={800}
+              height={500}
               circleSize={8}
               hideToolTip={false} />}
           {active === 'totals' &&
             <BarChart
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={20000}
-              height={800}
+              height={500}
               hideData={false} />}
           {active === 'bHeatmap' &&
             <Heatmap
               width={1000}
-              height={800}
+              height={500}
               hideTooltip={false}
               dataToggleM={pressedM}
               heatmapVersion={'b'} />}
           {active === 'pHeatmap' &&
             <Heatmap
               width={1000}
-              height={800}
+              height={500}
               hideTooltip={false}
               dataToggleM={pressedM}
               heatmapVersion={'p'} />}
           {active === 'bubble' &&
             <BubblePlot
               width={10000}
-              height={800}
+              height={500}
               dataToggleM={pressedM}
               dataToggleH={pressedH}
               hideData={false} />}

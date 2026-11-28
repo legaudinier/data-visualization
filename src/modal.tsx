@@ -32,7 +32,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
                     backgroundColor: '#fff',
                     padding: '24px',
                     borderRadius: '8px',
-                    maxWidth: '90%',
+                    maxWidth: '80%',
+                    maxHeight: '70%',
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 }}
             >
