@@ -89,7 +89,6 @@ export const combinedMapH = combinedMapBCalculation(allBDataH)
 export const pCombinedMap = combinedMapPCalculation(allPData);
 export const pCombinedMapH = combinedMapPCalculation(allPDataH);
 
-
 // Convert the grouped object values back into an array of objects
 export const resultB = Object.values(combinedMap);
 export const resultP = Object.values(pCombinedMap);
@@ -137,6 +136,24 @@ for (let z = 25; z < HeatmapDataB.length; z++) {
 
 export { HeatmapDataB }
 
+let HeatmapDataBH: HeatmapDataType = [];
+
+for (let x = 0; x < 22; x++) {
+    for (let y = 0; y < 31; y++) {
+        HeatmapDataBH.push({
+            x: box[x],
+            y: box[y],
+            value: 0,
+        });
+    }
+}
+
+for (let z = 0; z < HeatmapDataBH.length; z++) {
+    HeatmapDataBH[z].value = combinedMapH[z]?.totals
+}
+
+export { HeatmapDataBH }
+
 let HeatmapDataP: HeatmapDataType = [];
 
 for (let x = 0; x < 12; x++) {
@@ -150,7 +167,25 @@ for (let x = 0; x < 12; x++) {
 }
 
 for (let z = 25; z < HeatmapDataP.length; z++) {
-    HeatmapDataP[z].value = pCombinedMap[z].pTotals
+    HeatmapDataP[z].value = pCombinedMap[z]?.pTotals
 }
 
 export { HeatmapDataP }
+
+let HeatmapDataPH: HeatmapDataType = [];
+
+for (let x = 0; x < 12; x++) {
+    for (let y = 0; y < 30; y++) {
+        HeatmapDataPH.push({
+            x: box[x],
+            y: box[y],
+            value: 0,
+        });
+    }
+}
+
+for (let z = 0; z < HeatmapDataPH.length; z++) {
+    HeatmapDataPH[z].value = pCombinedMapH[z]?.pTotals
+}
+
+export { HeatmapDataPH }

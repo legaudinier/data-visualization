@@ -26,7 +26,7 @@ function App() {
   const [active, setActive] = useState('')
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [pressedM, setPressedM] = useState(true);
-  const [pressedH, setPressedH] = useState(true);
+  const [pressedH, setPressedH] = useState(false);
 
   const handleClickM = () => {
     const nextState = !pressedM;
@@ -283,6 +283,7 @@ function App() {
             className="svgContainer">
             <Heatmap
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               hideTooltip={true}
@@ -292,6 +293,7 @@ function App() {
             className="svgContainer">
             <Heatmap
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               width={375}
               height={300}
               hideTooltip={true}
@@ -343,6 +345,7 @@ function App() {
               height={500}
               hideTooltip={false}
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               heatmapVersion={'b'} />}
           {active === 'pHeatmap' &&
             <Heatmap
@@ -350,6 +353,7 @@ function App() {
               height={500}
               hideTooltip={false}
               dataToggleM={pressedM}
+              dataToggleH={pressedH}
               heatmapVersion={'p'} />}
           {active === 'bubble' &&
             <BubblePlot

@@ -1,6 +1,15 @@
 import { useMemo, useState } from "react";
 import * as d3 from "d3";
-import { bColor, pColor, HeatmapDataB, HeatmapDataP } from "../dataTools";
+import {
+    bColor,
+    bColorH,
+    pColor,
+    pColorH,
+    HeatmapDataB,
+    HeatmapDataP,
+    HeatmapDataBH,
+    HeatmapDataPH
+} from "../dataTools";
 import { HeatapTooltip } from "../tooltips/HeatmapTooltip";
 
 type HeatmapProps = {
@@ -9,6 +18,7 @@ type HeatmapProps = {
     hideTooltip: boolean;
     heatmapVersion: string;
     dataToggleM: boolean;
+    dataToggleH: boolean;
 };
 
 export type InteractionData = {
@@ -21,13 +31,36 @@ export type InteractionData = {
 
 const MARGIN = { top: 10, right: 50, bottom: 30, left: 50 };
 
-export const Heatmap = ({ width, height, hideTooltip, heatmapVersion, dataToggleM }: HeatmapProps) => {
+const getHeatmapConfig = (
+    version: string,
+    toggleM: boolean,
+    toggleH: boolean
+): { data: any[]; colorChoice: string } => {
+    const isB = version === "b";
+
+    if (toggleM && !toggleH) {
+        return {
+            data: isB ? HeatmapDataB : HeatmapDataP,
+            colorChoice: isB ? bColor : pColor,
+        };
+    }
+    if (!toggleM && toggleH) {
+        return {
+            data: isB ? HeatmapDataBH : HeatmapDataPH,
+            colorChoice: isB ? bColorH : pColorH,
+        };
+    }
+    return {
+        data: [],
+        colorChoice: bColor,
+    };
+};
+
+export const Heatmap = ({ width, height, hideTooltip, heatmapVersion, dataToggleM, dataToggleH }: HeatmapProps) => {
     const [hoveredCell, setHoveredCell] = useState<InteractionData | null>(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
-
-    const data = dataToggleM ? (heatmapVersion === 'b' ? HeatmapDataB : HeatmapDataP) : []
-    const color = heatmapVersion === 'b' ? bColor : pColor
+    const { data, colorChoice } = getHeatmapConfig(heatmapVersion, dataToggleM, dataToggleH);
 
     const allYGroups = useMemo(() => [...new Set(data.map((d) => d.y))], [data]);
     const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
@@ -52,7 +85,7 @@ export const Heatmap = ({ width, height, hideTooltip, heatmapVersion, dataToggle
 
     var colorScale = d3
         .scaleLinear<string, string>()
-        .range(['#e5dff0', color])
+        .range(['#e5dff0', colorChoice])
         .domain([min, max])
 
     // Build the rectangles
